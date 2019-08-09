@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import DomainUser from './components/User'
-import DomainJob from './components/Job'
+import DomainPosition from './components/Position'
 import DomainCompany from './components/Company'
 import DomainResume from './components/Resume'
 import DomainAds from './components/Ads'
@@ -30,9 +30,9 @@ export default new Router({
       component: DomainUser
     },
     {
-      path: '/job',
-      name: 'DomainJob',
-      component: DomainJob
+      path: '/position',
+      name: 'DomainPosition',
+      component: DomainPosition
     },
     {
       path: '/company',

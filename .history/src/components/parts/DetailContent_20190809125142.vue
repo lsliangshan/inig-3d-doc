@@ -189,11 +189,6 @@
     align-items: center;
     justify-content: space-between;
   }
-  .form_footer pre {
-    max-width: 250px;
-    white-space: pre-wrap;
-    word-break: break-all;
-  }
   .form_footer button {
     border: 1px solid #e0e0e0;
     background-color: #fefefe;
@@ -338,6 +333,9 @@
         // let ran = (Math.random() < 0.5)
         // this.result.status = ran ? '-1' : '1'
         // this.result.data = ran ? this.mockData2 : this.mockData
+        setTimeout(() => {
+          this.isRequesting = false
+        }, 3000)
         let args = this.requestArgs
         let response = {}
         switch (this.$route.params.domain) {
@@ -348,10 +346,10 @@
               } else {
                 this.result.status = '1'
               }
-              this.result.data = response || {}
+              this.result.data = response.data || {}
             }).catch(err => {
               this.result.status = '-1'
-              this.result.data = err.message
+              this.result.data = {}
             })
             break
           case 'user':
@@ -360,9 +358,6 @@
           default:
             break
         }
-        setTimeout(() => {
-          this.isRequesting = false
-        }, 1000)
       }
     },
     watch: {

@@ -3,7 +3,7 @@
     <div class="nav">
       <div class="head">领域分类</div>
       <ul>
-        <li v-for="(domain, index) in domains"
+        <li v-for="(domain, index) in menus"
             :key="index">
           <a href="javascript: void(0)"
              :class="{active: $route.params && (domain.name === $route.params.domain) }"
@@ -63,18 +63,18 @@
       },
       findCurrentParams () {
         let i = 0
-        let domains = this.domains
+        let menus = this.menus
         let outParams = []
-        for (i; i < domains.length; i++) {
-          if (domains[i].name != this.$route.params.domain) {
+        for (i; i < menus.length; i++) {
+          if (menus[i].name != this.$route.params.domain) {
             continue
           } else {
-            for (let j = 0; j < domains[i].children.length; j++) {
-              if (domains[i].children[j].name !== this.$route.params.methods) {
+            for (let j = 0; j < menus[i].children.length; j++) {
+              if (menus[i].children[j].name !== this.$route.params.methods) {
                 continue
               } else {
-                outParams = domains[i].children[j].params
-                j = domains[i].children.length
+                outParams = menus[i].children[j].params
+                j = menus[i].children.length
               }
             }
           }
@@ -84,11 +84,11 @@
       findOpenedMenuIndex () {
         let i = 0
         let outIndex = -1
-        let domains = this.domains
-        for (i; i < domains.length; i++) {
-          if (this.$route.params.domain === domains[i].name) {
+        let menus = this.menus
+        for (i; i < menus.length; i++) {
+          if (this.$route.params.domain === menus[i].name) {
             outIndex = i
-            i = domains.length
+            i = menus.length
           }
         }
         return outIndex

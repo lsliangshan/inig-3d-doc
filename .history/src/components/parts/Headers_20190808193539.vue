@@ -1,7 +1,6 @@
 <template>
   <div class="detail_header">
-    <router-link :to="'/' + $route.params.domain">{{$route.params.domain}}</router-link>
-    <span class="current_method">&nbsp;/ {{$route.params.methods}}</span>
+    <a href="javascript: void(0)">{{$route.params.domain}} / {{$route.params.methods}}</a>
     <!-- <div class="detail_header_right">
       <div class="import_text"
            :class="{show: !miniScreen}"
@@ -28,6 +27,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
   }
   .detail_header a {
     max-width: 320px;
@@ -40,9 +40,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-  }
-  .detail_header .current_method {
-    color: #aaa;
   }
   .detail_header_right {
     height: 66px;

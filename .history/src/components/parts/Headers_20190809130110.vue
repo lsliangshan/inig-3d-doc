@@ -1,6 +1,6 @@
 <template>
   <div class="detail_header">
-    <router-link :to="'/' + $route.params.domain">{{$route.params.domain}}</router-link>
+    <a href="javascript: void(0)">{{$route.params.domain}}</a>
     <span class="current_method">&nbsp;/ {{$route.params.methods}}</span>
     <!-- <div class="detail_header_right">
       <div class="import_text"

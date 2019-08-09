@@ -348,7 +348,7 @@
               } else {
                 this.result.status = '1'
               }
-              this.result.data = response || {}
+              this.result.data = response.data || {}
             }).catch(err => {
               this.result.status = '-1'
               this.result.data = err.message
