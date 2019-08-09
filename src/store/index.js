@@ -48,7 +48,7 @@ const DEFAULT_CONFIG = {
   companyName: '广州热招测试有限公司',
   rootCompanyId: '87560889',
   companyId: '87560889',
-  resumeNumber: 'JL057887747R90500000000',
+  resumeNumber: 'JM809213719R90250000000',
   platform: '13',
   userId: '705788774',
   at: '39b7fa7e518f449487ac1e0cfdbb9d8e',
@@ -219,7 +219,8 @@ const store = new Vuex.Store({
               },
               'st_action': {
                 type: 'String',
-                default: '701'
+                default: '701',
+                label: '职位来源'
               }
             }
           },
