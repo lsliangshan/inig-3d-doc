@@ -343,7 +343,7 @@
         switch (this.$route.params.domain) {
           case 'job':
             await Job[this.$route.params.methods](args).then(response => {
-              if (response.code !== 200) {
+              if (response.statusCode !== 200) {
                 this.result.status = '-1'
               } else {
                 this.result.status = '1'

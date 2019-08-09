@@ -102,6 +102,21 @@ const store = new Vuex.Store({
                 type: 'String',
                 default: DEFAULT_CONFIG.jobNumber,
                 label: '职位编号'
+              },
+              'platform': {
+                type: 'String',
+                default: '13',
+                label: '平台'
+              },
+              'channel': {
+                type: 'String',
+                default: 'pc',
+                label: '渠道'
+              },
+              'feedback': {
+                type: 'Boolean',
+                default: true,
+                label: '组装反馈数据'
               }
             }
           },
@@ -132,8 +147,8 @@ const store = new Vuex.Store({
             params: {
               'companyId': {
                 type: 'String',
-                default: DEFAULT_CONFIG.companyId,
-                label: '公司ID'
+                default: DEFAULT_CONFIG.companyNumber,
+                label: '公司编号'
               },
               'cityId': {
                 type: 'String',
