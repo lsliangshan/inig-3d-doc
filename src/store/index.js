@@ -31,9 +31,9 @@
  **                                              不见满街漂亮妹，哪个归得程序员？
  */
 
- /**
- * Created by liangshan on 2017/7/13.
- */
+/**
+* Created by liangshan on 2017/7/13.
+*/
 import Vue from 'vue'
 import Vuex from 'vuex'
 // import * as actions from './actions'
@@ -51,8 +51,8 @@ const DEFAULT_CONFIG = {
   resumeNumber: 'JL057887747R90500000000',
   platform: '13',
   userId: '705788774',
-  at: 'ec1e3ffbd54e4af384c108692459b4e8',
-  rt: '8a5ec8cf79914f318760fea26a263d70'
+  at: '39b7fa7e518f449487ac1e0cfdbb9d8e',
+  rt: '0a0200e54dc145caadd9ffe8a67bc095'
 }
 
 const store = new Vuex.Store({
@@ -106,11 +106,7 @@ const store = new Vuex.Store({
                 default: DEFAULT_CONFIG.jobNumber,
                 label: '职位编号'
               },
-              'platform': {
-                type: 'String',
-                default: '13',
-                label: '平台'
-              },
+
               'channel': {
                 type: 'String',
                 default: 'pc',
@@ -150,13 +146,13 @@ const store = new Vuex.Store({
             params: {
               'companyId': {
                 type: 'String',
-                default: DEFAULT_CONFIG.companyNumber,
+                default: DEFAULT_CONFIG.companyNumber + ';CZ407312210', // 多个值用;号区分
                 label: '公司编号'
               },
-              'cityId': {
+              'workCity': {
                 type: 'String',
                 default: '',
-                label: '城市ID'
+                label: '工作城市ID'
               }
             }
           },
@@ -164,7 +160,7 @@ const store = new Vuex.Store({
             label: '获取在招职位所在城市',
             name: 'requestAreaJobCity',
             params: {
-              'number': {
+              'companyNumber': {
                 type: 'String',
                 default: DEFAULT_CONFIG.jobNumber,
                 label: '职位编号'
@@ -191,9 +187,9 @@ const store = new Vuex.Store({
             label: '投递职位',
             name: 'requestJobDeliver',
             params: {
-              'jobNumbers': {
-                type: 'Array',
-                default: [DEFAULT_CONFIG.jobNumber],
+              'positionNumbers': {
+                type: 'String',
+                default: DEFAULT_CONFIG.jobNumber,
                 label: '职位编号'
               },
               'resumeNumber': {
@@ -201,14 +197,14 @@ const store = new Vuex.Store({
                 default: DEFAULT_CONFIG.resumeNumber,
                 label: '简历编号'
               },
-              'batched': {
-                type: 'Boolean',
-                default: false,
+              'deliveryWay': {
+                type: 'String',
+                default: '0',
                 label: '是否批投'
               },
               'cityIds': {
-                type: 'Array',
-                default: ['565'],
+                type: 'String',
+                default: '565',
                 label: '城市ID'
               },
               'inviteCode': {
@@ -216,15 +212,14 @@ const store = new Vuex.Store({
                 default: '',
                 label: '内推码'
               },
-              'jobSource': {
+              'channel': {
                 type: 'String',
-                default: 'RECOMMENDATION',
-                label: '职位来源'
+                default: 'pc',
+                label: '渠道'
               },
-              'pageCode': {
+              'st_action': {
                 type: 'String',
-                default: 4020,
-                label: 'PageCode'
+                default: '701'
               }
             }
           },
