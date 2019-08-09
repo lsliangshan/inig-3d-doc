@@ -290,6 +290,7 @@
 <script>
   import * as Job from '../../../../plugins-3d/lib/domains/job/service'
   import * as User from '../../../../plugins-3d/lib/domains/user/service'
+  import * as Company from '../../../../plugins-3d/lib/domains/company/service'
   export default {
     name: 'DetailContent',
     props: {
@@ -356,6 +357,19 @@
             break
           case 'user':
             response = await User[this.$route.params.methods](args)
+            break
+          case 'company':
+            await Company[this.$route.params.methods](args).then(response => {
+              if (response.statusCode !== 200) {
+                this.result.status = '-1'
+              } else {
+                this.result.status = '1'
+              }
+              this.result.data = response || {}
+            }).catch(err => {
+              this.result.status = '-1'
+              this.result.data = err.message
+            })
             break
           default:
             break

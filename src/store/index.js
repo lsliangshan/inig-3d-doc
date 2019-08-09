@@ -30,7 +30,8 @@
  **                                              别人笑我忒疯癫，我笑自己命太贱；
  **                                              不见满街漂亮妹，哪个归得程序员？
  */
-/**
+
+ /**
  * Created by liangshan on 2017/7/13.
  */
 import Vue from 'vue'
@@ -44,9 +45,11 @@ Vue.use(Vuex)
 const DEFAULT_CONFIG = {
   jobNumber: 'CC875608890J00261530502',
   companyNumber: 'CZ875608890',
+  companyName: '广州热招测试有限公司',
   rootCompanyId: '87560889',
   companyId: '87560889',
   resumeNumber: 'JL057887747R90500000000',
+  platform: '13',
   userId: '705788774',
   at: 'ec1e3ffbd54e4af384c108692459b4e8',
   rt: '8a5ec8cf79914f318760fea26a263d70'
@@ -263,7 +266,60 @@ const store = new Vuex.Store({
         label: '公司领域',
         name: 'company',
         children: [
-
+          {
+            label: '获取公司详情',
+            name: 'requestCompanyDetail',
+            params: {
+              'number': {
+                type: 'String',
+                default: DEFAULT_CONFIG.companyNumber,
+                label: '公司编号'
+              },
+              'platform': {
+                type: 'String',
+                default: DEFAULT_CONFIG.platform,
+                label: '平台'
+              }
+            }
+          },
+          {
+            label: '获取公司问答',
+            name: 'requestCompanyQuestion',
+            params: {
+              'companyName': {
+                type: 'String',
+                default: DEFAULT_CONFIG.companyName,
+                label: '公司名称'
+              }
+            }
+          },
+          {
+            label: '获取公司面试邀请数量',
+            name: 'requestCompanyInterviewCount',
+            params: {
+              'rootCompanyId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.rootCompanyId,
+                label: '公司RootID'
+              },
+              'companyId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.companyId,
+                label: '公司ID'
+              }
+            }
+          },
+          {
+            label: '获取公司点评信息',
+            name: 'requestCompanyComment',
+            params: {
+              'orgNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.companyNumber,
+                label: '公司编号'
+              }
+            }
+          }
         ]
       },
       {
