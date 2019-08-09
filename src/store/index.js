@@ -41,6 +41,17 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+const DEFAULT_CONFIG = {
+  jobNumber: 'CC875608890J00261530502',
+  companyNumber: 'CZ875608890',
+  rootCompanyId: '87560889',
+  companyId: '87560889',
+  resumeNumber: 'JL057887747R90500000000',
+  userId: '705788774',
+  at: 'ec1e3ffbd54e4af384c108692459b4e8',
+  rt: '8a5ec8cf79914f318760fea26a263d70'
+}
+
 const store = new Vuex.Store({
   // actions: actions.actions,
   // mutations: mutations.mutations,
@@ -89,7 +100,7 @@ const store = new Vuex.Store({
             params: {
               'number': {
                 type: 'String',
-                default: '',
+                default: DEFAULT_CONFIG.jobNumber,
                 label: '职位编号'
               }
             }
@@ -100,8 +111,18 @@ const store = new Vuex.Store({
             params: {
               'number': {
                 type: 'String',
-                default: '',
+                default: DEFAULT_CONFIG.jobNumber,
                 label: '职位编号'
+              },
+              'subJobType': {
+                type: Number,
+                default: 6,
+                label: '职位类别'
+              },
+              'cityId': {
+                type: 'String',
+                default: '571',
+                label: '城市ID'
               }
             }
           },
@@ -109,10 +130,15 @@ const store = new Vuex.Store({
             label: '获取在招职位',
             name: 'requestAreaJobs',
             params: {
-              'number': {
+              'companyId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.companyId,
+                label: '公司ID'
+              },
+              'cityId': {
                 type: 'String',
                 default: '',
-                label: '职位编号'
+                label: '城市ID'
               }
             }
           },
@@ -122,7 +148,7 @@ const store = new Vuex.Store({
             params: {
               'number': {
                 type: 'String',
-                default: '',
+                default: DEFAULT_CONFIG.jobNumber,
                 label: '职位编号'
               }
             }
@@ -131,10 +157,15 @@ const store = new Vuex.Store({
             label: '收藏职位',
             name: 'requestJobCollection',
             params: {
-              'number': {
+              'positionNumbers': {
                 type: 'String',
-                default: '',
+                default: DEFAULT_CONFIG.jobNumber,
                 label: '职位编号'
+              },
+              'cityIds': {
+                type: 'String',
+                default: '530',
+                label: '城市ID'
               }
             }
           },
@@ -142,10 +173,40 @@ const store = new Vuex.Store({
             label: '投递职位',
             name: 'requestJobDeliver',
             params: {
-              'number': {
+              'jobNumbers': {
+                type: 'Array',
+                default: [DEFAULT_CONFIG.jobNumber],
+                label: '职位编号'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeNumber,
+                label: '简历编号'
+              },
+              'batched': {
+                type: 'Boolean',
+                default: false,
+                label: '是否批投'
+              },
+              'cityIds': {
+                type: 'Array',
+                default: ['565'],
+                label: '城市ID'
+              },
+              'inviteCode': {
                 type: 'String',
                 default: '',
-                label: '职位编号'
+                label: '内推码'
+              },
+              'jobSource': {
+                type: 'String',
+                default: 'RECOMMENDATION',
+                label: '职位来源'
+              },
+              'pageCode': {
+                type: 'String',
+                default: 4020,
+                label: 'PageCode'
               }
             }
           },
@@ -155,29 +216,7 @@ const store = new Vuex.Store({
             params: {
               'number': {
                 type: 'String',
-                default: '',
-                label: '职位编号'
-              }
-            }
-          },
-          {
-            label: '获取最佳雇主',
-            name: 'requestBestEmployer',
-            params: {
-              'number': {
-                type: 'String',
-                default: '',
-                label: '职位编号'
-              }
-            }
-          },
-          {
-            label: '获取最佳雇主评论',
-            name: 'requestBestEmployerComment',
-            params: {
-              'number': {
-                type: 'String',
-                default: '',
+                default: DEFAULT_CONFIG.jobNumber,
                 label: '职位编号'
               }
             }
@@ -188,8 +227,18 @@ const store = new Vuex.Store({
             params: {
               'number': {
                 type: 'String',
-                default: '',
+                default: DEFAULT_CONFIG.jobNumber,
                 label: '职位编号'
+              },
+              'width': {
+                type: 'Number',
+                default: 120,
+                label: '宽度'
+              },
+              'hyaline': {
+                type: 'Boolean',
+                default: false,
+                label: '是否透明背影'
               }
             }
           }
