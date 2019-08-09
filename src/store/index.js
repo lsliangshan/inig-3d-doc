@@ -199,7 +199,49 @@ const store = new Vuex.Store({
         label: '公司领域',
         name: 'company',
         children: [
-
+          {
+            label: '获取公司详情',
+            name: 'requestCompanyDetail',
+            params: {
+              'companyNumber': {
+                type: 'String',
+                default: '',
+                label: '公司编号'
+              }
+            }
+          },
+          {
+            label: '获取公司问答',
+            name: 'requestCompanyQuestion',
+            params: {}
+          },
+          {
+            label: '获取公司面试邀请',
+            name: 'requestCompanyInterview',
+            params: {
+              'rootCompanyId': {
+                type: 'String',
+                default: '',
+                label: '公司RootId'
+              },
+              'companyId': {
+                type: 'String',
+                default: '',
+                label: '公司Id'
+              }
+            }
+          },
+          {
+            label: '获取公司点评信息',
+            name: 'requestCompanyComment',
+            params: {
+              'companyNumber': {
+                type: 'String',
+                default: '',
+                label: '公司编号'
+              }
+            }
+          }
         ]
       },
       {
