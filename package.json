@@ -9,6 +9,9 @@
   "dependencies": {
     "clipboard": "^2.0.4",
     "core-js": "^2.6.5",
+    "izitoast": "^1.4.0",
+    "less": "^3.9.0",
+    "less-loader": "^5.0.0",
     "plugins-3d": "0.0.1",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",

@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { INIG } from '../../plugins-3d'
+import iziToast from 'izitoast'
+import 'izitoast/dist/css/iziToast.min.css'
 
 Vue.config.productionTip = false
 INIG({
@@ -10,6 +12,16 @@ INIG({
   pagecode: 4020, // 必填
   appid: 'A23'
 })
+
+Vue.prototype.$toast = iziToast
+
+iziToast.settings({
+  position: 'topRight',
+  // displayMode: 2,
+  // transitionIn: 'flipInX',
+  // transitionOut: 'flipOutX'
+})
+
 new Vue({
   router,
   store,
