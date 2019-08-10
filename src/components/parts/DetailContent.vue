@@ -4,23 +4,20 @@
       <p>导入模块</p>
       <div class="highlight_code">
         <pre class="import_target">import { {{$route.params.methods}} } from "plugins-3d/lib/domains/{{$route.params.domain}}/service"</pre>
-        <svg class="import_copy_ref"
-             data-clipboard-target=".import_target">
+        <svg class="import_copy_ref">
           <use xlink:href="#copy"></use>
         </svg>
       </div>
     </div>
     <div class="highlight">
       <p>使用</p>
-      <!-- <pre>{{JSON.stringify(params, null, 2)}}</pre> -->
       <div class="usage_container">
         <form class="methods_form"
               action="javascript:void(0)">
           <div class="form_item"
-               v-for="(value, key) in params"
+               v-for="(value, key) in currentParams"
                :key="key">
             <label :for="key">{{value.label}}
-              <!-- <pre style="display: inline;">&#9;</pre> -->
             </label>
             <input type="text"
                    class="custom_input"
@@ -30,8 +27,8 @@
                    v-model="requestArgs[key]" />
           </div>
           <div class="form_footer"
-               :style="{borderTop: Object.keys(params).length > 0 ? '1px solid #eeeeee' : '1px solid transparent'}">
-            <pre v-if="Object.keys(params).length > 0">{{$route.params.methods}}({{requestArgs}});</pre>
+               :style="{borderTop: Object.keys(currentParams).length > 0 ? '1px solid #eeeeee' : '1px solid transparent'}">
+            <pre v-if="Object.keys(currentParams).length > 0">{{$route.params.methods}}({{requestArgs}});</pre>
             <pre v-else>{{$route.params.methods}}();</pre>
             <button class="btn_run"
                     :class="[isRequesting ? 'running' : '']"
@@ -42,9 +39,13 @@
               <span v-if="isRequesting">运行中...</span>
               <span v-else>运行</span>
             </button>
+            <svg class="method_copy_ref">
+              <use xlink:href="#copy"></use>
+            </svg>
           </div>
         </form>
-        <div class="result_container">
+        <div class="result_container"
+             :class="[(result.hasOwnProperty('data') && result.data) ? 'allow_copy' : '']">
           <div class="result_status_container"
                v-if="!isRequesting && (result.status == '0')"></div>
           <div class="result_status_container success"
@@ -58,13 +59,6 @@
               <use xlink:href="#loading-dots"></use>
             </svg>
           </div>
-          <!-- <pre class="result_data_container result_data_container_error"
-               v-if="!isRequesting && (result.status != '0') && (typeof result.data !== 'string')">{{JSON.stringify(result.data, null, 2)}}</pre>
-          <pre class="result_data_container result_data_container_error"
-               v-else-if="!isRequesting && (result.status != '0')">{{result.data}}</pre>
-          <json-view class="result_data_container"
-                     v-else-if="!isRequesting"
-                     :data="result.data"></json-view> -->
           <json-view class="result_data_container"
                      v-if="!isRequesting && (result.hasOwnProperty('data')) && (typeof result.data !== 'string')"
                      :data="result.data"></json-view>
@@ -78,6 +72,9 @@
               <use xlink:href="#loading"></use>
             </svg>
           </div>
+          <svg class="result_copy_ref">
+            <use xlink:href="#copy"></use>
+          </svg>
         </div>
       </div>
     </div>
@@ -155,6 +152,7 @@
   justify-content: space-between;
 }
 .result_container {
+  position: relative;
   width: calc(100% - 380px);
   min-height: 100%;
   border-left: 1px solid #eee;
@@ -162,6 +160,24 @@
   box-sizing: border-box;
   font-size: 13px;
   background-color: #1e1e1e;
+}
+.result_container .result_copy_ref {
+  fill: #eee;
+  position: absolute;
+  top: 50px;
+  right: 15px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+.result_container.allow_copy:hover .result_copy_ref {
+  opacity: 1;
 }
 .methods_form {
   width: 350px;
@@ -197,11 +213,31 @@
     box-shadow 0.2s ease-in-out;
 }
 .form_footer {
+  position: relative;
   width: 350px;
+  padding-top: 20px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+.form_footer .method_copy_ref {
+  fill: #444;
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+.form_footer:hover .method_copy_ref {
+  opacity: 1;
 }
 .form_footer pre {
   max-width: 250px;
@@ -333,13 +369,63 @@ export default {
       isRequesting: false // 正在请求
     }
   },
+  computed: {
+    store () {
+      return this.$store
+    },
+    domains () {
+      return this.store.state.domains
+    },
+    currentDomain () {
+      return this.domains.filter(item => {
+        return item.name.toLowerCase() === this.$route.params.domain.toLowerCase()
+      })[0]
+    },
+    currentParams () {
+      return this.currentDomain ? this.currentDomain.filter(item => {
+        return item.name.toLowerCase() === this.$route.params.methods.toLowerCase()
+      }).params : {}
+    }
+  },
   mounted () {
-    this.initCopyBtn()
+    this.initClipboardBtns()
   },
   methods: {
-    initCopyBtn () {
-      let copyRef = new Clipboard('.import_copy_ref')
-      copyRef.on('success', (e) => {
+    initClipboardBtns () {
+      let importCopyRef = new Clipboard('.import_copy_ref', {
+        text: () => {
+          return 'import { ' + this.$route.params.methods + ' } from "plugins-3d/lib/domains/' + this.$route.params.domain + '/service"'
+        }
+      })
+      importCopyRef.on('success', (e) => {
+        this.$toast.success({
+          message: '复制成功',
+          displayMode: 2
+        })
+      })
+      let resultCopyRef = new Clipboard('.result_copy_ref', {
+        text: () => {
+          return JSON.stringify(this.result.data)
+        }
+      })
+      resultCopyRef.on('success', (e) => {
+        this.$toast.success({
+          message: '复制成功',
+          displayMode: 2
+        })
+      })
+      let methodCopyRef = new Clipboard('.method_copy_ref', {
+        text: () => {
+          let text = ''
+          if (Object.keys(this.currentParams).length > 0) {
+            text = `${this.$route.params.methods}(${JSON.stringify(this.requestArgs, null, 2)});`
+          } else {
+            text = `${this.$route.params.methods}();`
+          }
+          return text
+        }
+      })
+      methodCopyRef.on('success', (e) => {
         this.$toast.success({
           message: '复制成功',
           displayMode: 2
@@ -351,10 +437,10 @@ export default {
     },
     formatArgs () {
       let args = {}
-      for (let p in this.params) {
-        if (this.params.hasOwnProperty(p)) {
+      for (let p in this.currentParams) {
+        if (this.currentParams.hasOwnProperty(p)) {
           if (!args.hasOwnProperty(p)) {
-            args[p] = this.params[p].default
+            args[p] = this.currentParams[p].default
           }
         }
       }
