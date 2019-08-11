@@ -98,6 +98,50 @@ const store = new Vuex.Store({
         name: 'job',
         children: [
           {
+            label: '获取推荐职位',
+            name: 'requestRecommendJobs',
+            params: {
+              'resumeVersion': {
+                type: 'String',
+                default: '1',
+                label: '简历版本'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeNumber,
+                label: '简历编号'
+              },
+              'isCompus': {
+                type: 'String',
+                default: '0', // 0: 非学生； 1：学生
+                label: '是否学生'
+              },
+              'eventScenario': {
+                type: 'String',
+                default: 'weexAppHome',
+                label: '事件场景',
+                options: [
+                  {
+                    label: 'Weex首页',
+                    value: 'weexAppHome'
+                  },
+                  {
+                    label: 'App搜索结果页',
+                    value: 'searchListRecommend'
+                  },
+                  {
+                    label: 'iOS原生首页',
+                    value: 'nativeiOSHome'
+                  },
+                  {
+                    label: 'Android原生首页',
+                    value: 'nativeAndroidHome'
+                  }
+                ]
+              }
+            }
+          },
+          {
             label: '获取职位详情',
             name: 'requestJobDetail',
             params: {
