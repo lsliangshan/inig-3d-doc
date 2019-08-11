@@ -16,8 +16,8 @@
                    v-for="(item, index) in domain.children"
                    :key="index">
                 <a href="javascript: void(0)"
-                   :class="{active: $route.params.methods === item.name}"
-                   @click="navigateTo(domain.name, item.name, item.params, item.label)">{{item.label}}</a>
+                   :class="{active: $route.params.method === item.name}"
+                   @click="navigateTo(domain.name, item.name, item.label)">{{item.label}}</a>
               </div>
             </div>
           </div>
@@ -26,7 +26,7 @@
     </div>
     <div class="content">
       <div class="inner">
-        <router-view :params="currentParems" />
+        <router-view />
       </div>
     </div>
     <all-svgs></all-svgs>
@@ -41,8 +41,7 @@ export default {
   data () {
     return {
       openedMenu: -1,
-      activeSubMenu: '',
-      currentParems: {}
+      activeSubMenu: ''
     }
   },
   computed: {
@@ -55,31 +54,10 @@ export default {
   },
   created () {
     this.openedMenu = this.findOpenedMenuIndex()
-    this.currentParems = this.findCurrentParams()
   },
   methods: {
     toggleMenu (index) {
       this.openedMenu = (this.openedMenu === index ? -1 : index)
-    },
-    findCurrentParams () {
-      let i = 0
-      let domains = this.domains
-      let outParams = []
-      for (i; i < domains.length; i++) {
-        if (domains[i].name != this.$route.params.domain) {
-          continue
-        } else {
-          for (let j = 0; j < domains[i].children.length; j++) {
-            if (domains[i].children[j].name !== this.$route.params.methods) {
-              continue
-            } else {
-              outParams = domains[i].children[j].params
-              j = domains[i].children.length
-            }
-          }
-        }
-      }
-      return outParams
     },
     findOpenedMenuIndex () {
       let i = 0
@@ -93,11 +71,10 @@ export default {
       }
       return outIndex
     },
-    navigateTo (domain, methods, params, label) {
-      this.currentParems = params
+    navigateTo (domain, method, label) {
       document.title = label
       this.$router.replace({
-        path: '/' + domain + '/' + methods
+        path: '/' + domain + '/' + method
       })
     }
   }

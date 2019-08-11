@@ -1,8 +1,9 @@
 <template>
   <div class="detail_header">
-    <div v-if="$route.name.toLowerCase() === 'detail'">
+    <div v-if="$route.name.toLowerCase() === 'detail'"
+         style="font-weight: bold;">
       <router-link :to="'/' + $route.params.domain">{{$route.params.domain}}</router-link>
-      <span class="current_method">&nbsp;/ {{$route.params.methods}}</span>
+      <span class="current_method">&nbsp;/ {{$route.params.method}}</span>
     </div>
     <div class="domain_items"
          v-else-if="$route.name.toLowerCase() === 'list'">
@@ -19,6 +20,7 @@
 .detail_header {
   position: sticky;
   top: 0;
+  z-index: 1;
   width: 100%;
   height: 66px;
   background-color: #fff;

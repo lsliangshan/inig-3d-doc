@@ -3,7 +3,7 @@
     <div class="highlight">
       <p>导入模块</p>
       <div class="highlight_code">
-        <pre class="import_target">import { {{$route.params.methods}} } from "plugins-3d/lib/domains/{{$route.params.domain}}/service"</pre>
+        <pre class="import_target">import { {{$route.params.method}} } from "plugins-3d/lib/domains/{{$route.params.domain}}/service"</pre>
         <svg class="import_copy_ref">
           <use xlink:href="#copy"></use>
         </svg>
@@ -28,8 +28,8 @@
           </div>
           <div class="form_footer"
                :style="{borderTop: Object.keys(currentParams).length > 0 ? '1px solid #eeeeee' : '1px solid transparent'}">
-            <pre v-if="Object.keys(currentParams).length > 0">{{$route.params.methods}}({{requestArgs}});</pre>
-            <pre v-else>{{$route.params.methods}}();</pre>
+            <pre v-if="Object.keys(currentParams).length > 0">{{$route.params.method}}({{requestArgs}});</pre>
+            <pre v-else>{{$route.params.method}}();</pre>
             <button class="btn_run"
                     :class="[isRequesting ? 'running' : '']"
                     @click="run">
@@ -241,6 +241,7 @@
 }
 .form_footer pre {
   max-width: 250px;
+  line-height: 1.5;
   white-space: pre-wrap;
   word-break: break-all;
 }
@@ -363,6 +364,11 @@ export default {
   },
   data () {
     return {
+      DOMAIN: {
+        job: Job,
+        user: User,
+        company: Company
+      },
       requestArgs: {},
       result: {
       },
@@ -382,9 +388,9 @@ export default {
       })[0]
     },
     currentParams () {
-      return this.currentDomain ? this.currentDomain.filter(item => {
-        return item.name.toLowerCase() === this.$route.params.methods.toLowerCase()
-      }).params : {}
+      return this.currentDomain.children.filter(item => {
+        return item.name.toLowerCase() === this.$route.params.method.toLowerCase()
+      })[0].params
     }
   },
   mounted () {
@@ -394,7 +400,7 @@ export default {
     initClipboardBtns () {
       let importCopyRef = new Clipboard('.import_copy_ref', {
         text: () => {
-          return 'import { ' + this.$route.params.methods + ' } from "plugins-3d/lib/domains/' + this.$route.params.domain + '/service"'
+          return 'import { ' + this.$route.params.method + ' } from "plugins-3d/lib/domains/' + this.$route.params.domain + '/service"'
         }
       })
       importCopyRef.on('success', (e) => {
@@ -418,9 +424,9 @@ export default {
         text: () => {
           let text = ''
           if (Object.keys(this.currentParams).length > 0) {
-            text = `${this.$route.params.methods}(${JSON.stringify(this.requestArgs, null, 2)});`
+            text = `${this.$route.params.method}(${JSON.stringify(this.requestArgs, null, 2)});`
           } else {
-            text = `${this.$route.params.methods}();`
+            text = `${this.$route.params.method}();`
           }
           return text
         }
@@ -453,39 +459,17 @@ export default {
       this.isRequesting = true
       let args = this.requestArgs
       let response = {}
-      switch (this.$route.params.domain) {
-        case 'job':
-          await Job[this.$route.params.methods](args).then(response => {
-            if (response.statusCode !== 200) {
-              this.result.status = '-1'
-            } else {
-              this.result.status = '1'
-            }
-            this.result.data = response || {}
-          }).catch(err => {
-            this.result.status = '-1'
-            this.result.data = err.message
-          })
-          break
-        case 'user':
-          response = await User[this.$route.params.methods](args)
-          break
-        case 'company':
-          await Company[this.$route.params.methods](args).then(response => {
-            if (response.statusCode !== 200) {
-              this.result.status = '-1'
-            } else {
-              this.result.status = '1'
-            }
-            this.result.data = response || {}
-          }).catch(err => {
-            this.result.status = '-1'
-            this.result.data = err.message
-          })
-          break
-        default:
-          break
-      }
+      await this.DOMAIN[this.$route.params.domain][this.$route.params.method](args).then(response => {
+        if (response.statusCode !== 200) {
+          this.result.status = '-1'
+        } else {
+          this.result.status = '1'
+        }
+        this.result.data = response || {}
+      }).catch(err => {
+        this.result.status = '-1'
+        this.result.data = err.message
+      })
       setTimeout(() => {
         this.isRequesting = false
       }, 1000)
