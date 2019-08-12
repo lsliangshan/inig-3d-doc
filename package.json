@@ -7,8 +7,10 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "babel-plugin-import": "^1.12.0",
     "clipboard": "^2.0.4",
     "core-js": "^2.6.5",
+    "iview": "^3.4.2",
     "izitoast": "^1.4.0",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",

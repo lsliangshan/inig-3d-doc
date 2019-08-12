@@ -142,6 +142,82 @@ const store = new Vuex.Store({
             }
           },
           {
+            label: '搜索职位',
+            name: 'requestJobSearch',
+            params: {
+              'kw': {
+                type: 'String',
+                default: '',
+                label: '全文关键词'
+              }
+            },
+            dynamicParams: {
+              'sort': {
+                type: 'Number',
+                default: 0,
+                label: '排序方式',
+                options: [
+                  {
+                    label: '默认',
+                    value: 0
+                  },
+                  {
+                    label: '智能排序',
+                    value: 11
+                  },
+                  {
+                    label: '反馈',
+                    value: 1
+                  },
+                  {
+                    label: '薪资',
+                    value: 2
+                  },
+                  {
+                    label: '距离',
+                    value: 3
+                  },
+                  {
+                    label: '发布时间',
+                    value: 4
+                  },
+                  {
+                    label: '高薪职位',
+                    value: 5
+                  },
+                  {
+                    label: '闪聘',
+                    value: 6
+                  },
+                  {
+                    label: '公司在招职位筛选',
+                    value: 7
+                  }
+                ]
+              },
+              'jobType': {
+                type: 'String',
+                default: '',
+                label: '职位类型'
+              },
+              'workCity': {
+                type: 'String',
+                default: '',
+                label: '工作城市'
+              },
+              'experience': {
+                type: 'String',
+                default: '',
+                label: '工作经验要求'
+              },
+              'education': {
+                type: 'String',
+                default: '',
+                label: '学历要求'
+              }
+            }
+          },
+          {
             label: '获取职位详情',
             name: 'requestJobDetail',
             params: {
