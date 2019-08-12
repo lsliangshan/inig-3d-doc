@@ -48,7 +48,11 @@ const DEFAULT_CONFIG = {
   companyName: '广州热招测试有限公司',
   rootCompanyId: '87560889',
   companyId: '87560889',
-  resumeNumber: 'JM809213719R90250000000',
+  resumeId: '312604895',
+  resumeNumber: 'JL203611385R90500000000',
+  resumeVersion: 1,
+  resumeLanguage: 1,
+  nodeName: 'WorkExperience',
   platform: '13',
   userId: '705788774',
   at: '39b7fa7e518f449487ac1e0cfdbb9d8e',
@@ -365,8 +369,157 @@ const store = new Vuex.Store({
       {
         label: '简历领域',
         name: 'resume',
+        // requestResumeGetNode: '/capi/resume/getResumeNode', // 获取简历节点信息
+        // requestResumeSetNode: '/capi/resume/saveResumeNode', // 添加或更新简历节点信息
+        // requestResumeDeleteNode: '/capi/resume/deleteResumeNode', // 删除简历节点信息
+        // requestResumePreview: '/capi/resume/preview', // 预览简历
+        // requestResumeDelete: '/capi/resume/delete', // 删除简历
         children: [
-
+          {
+            label: '获取简历节点信息',
+            name: 'requestResumeGetNode',
+            params: {
+              'resumeId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeId,
+                label: '简历ID'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeNumber,
+                label: '简历编号'
+              },
+              'resumeVersion': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeVersion,
+                label: '简历版本号'
+              },
+              'resumeLanguage': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeLanguage,
+                label: '简历语言'
+              },
+              'nodeName': {
+                type: 'String',
+                default: DEFAULT_CONFIG.nodeName,
+                label: '简历节点'
+              }
+            }
+          },
+          {
+            label: '添加或更新简历节点信息',
+            name: 'requestResumeSetNode',
+            params: {
+              'resumeId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeId,
+                label: '简历ID'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeNumber,
+                label: '简历编号'
+              },
+              'resumeVersion': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeVersion,
+                label: '简历版本号'
+              },
+              'resumeLanguage': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeLanguage,
+                label: '简历语言'
+              },
+              'nodeName': {
+                type: 'String',
+                default: DEFAULT_CONFIG.nodeName,
+                label: '简历节点'
+              }
+            }
+          },
+          {
+            label: '删除简历节点信息',
+            name: 'requestResumeDeleteNode',
+            params: {
+              'resumeId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeId,
+                label: '简历ID'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeNumber,
+                label: '简历编号'
+              },
+              'resumeVersion': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeVersion,
+                label: '简历版本号'
+              },
+              'resumeLanguage': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeLanguage,
+                label: '简历语言'
+              },
+              'nodeName': {
+                type: 'String',
+                default: DEFAULT_CONFIG.nodeName,
+                label: '简历节点'
+              }
+            }
+          },
+          {
+            label: '预览简历',
+            name: 'requestResumePreview',
+            params: {
+              'resumeId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeId,
+                label: '简历ID'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeNumber,
+                label: '简历编号'
+              },
+              'resumeVersion': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeVersion,
+                label: '简历版本号'
+              },
+              'resumeLanguage': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeLanguage,
+                label: '简历语言'
+              }
+            }
+          },
+          {
+            label: '删除简历',
+            name: 'requestResumeDelete',
+            params: {
+              'resumeId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeId,
+                label: '简历ID'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeNumber,
+                label: '简历编号'
+              },
+              'resumeVersion': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeVersion,
+                label: '简历版本号'
+              },
+              'resumeLanguage': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeLanguage,
+                label: '简历语言'
+              }
+            }
+          }
         ]
       },
       {

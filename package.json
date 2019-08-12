@@ -9,6 +9,7 @@
   "dependencies": {
     "clipboard": "^2.0.4",
     "core-js": "^2.6.5",
+    "install": "^0.13.0",
     "izitoast": "^1.4.0",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
