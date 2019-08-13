@@ -21,18 +21,43 @@
           <FormItem v-for="(value, key) in currentParams"
                     :key="key"
                     :label="value.label">
-            <Input type="text"
+            <i-switch v-if="value.type === 'Boolean'"
+                      v-model="requestArgs[key]"></i-switch>
+            <Select v-else-if="(value.options instanceof Array)"
+                    v-model="requestArgs[key]">
+              <Option v-for="(opt, index) in value.options"
+                      :key="index"
+                      :value="opt.value">{{opt.label}}</Option>
+            </Select>
+            <Input :type="(value.type === 'Number') ? 'number' : 'text'"
+                   :number="(value.type === 'Number')"
                    :placeholder="'请输入' + value.label"
-                   v-model="requestArgs[key]" />
+                   v-model="requestArgs[key]"
+                   v-else />
           </FormItem>
           <FormItem v-for="(value, key) in renderDynamicParams"
                     :key="key"
                     :label="value.label"
                     class="dynamic_item">
+            <i-switch v-if="value.type === 'Boolean'"
+                      v-model="requestArgs[key]"
+                      style="width: calc(100% - 40px);"></i-switch>
+            <Select v-else-if="(value.options instanceof Array)"
+                    style="width: calc(100% - 40px);"
+                    v-model="requestArgs[key]">
+              <Option v-for="(opt, index) in value.options"
+                      :key="index"
+                      :value="opt.value">{{opt.label}}</Option>
+            </Select>
             <Input type="text"
                    :placeholder="'请输入' + value.label"
                    v-model="requestArgs[key]"
-                   style="width: calc(100% - 40px);" />
+                   style="width: calc(100% - 40px);"
+                   v-else />
+            <!-- <Input type="text"
+                   :placeholder="'请输入' + value.label"
+                   v-model="requestArgs[key]"
+                   style="width: calc(100% - 40px);" /> -->
             <div class="dynamic_item_remove"
                  @click="removeDynamicParams(key)">
               <Tooltip content="删除参数"
@@ -72,49 +97,6 @@
             </div>
           </FormItem>
         </Form>
-
-        <!-- <form class="methods_form"
-              action="javascript:void(0)">
-          <div class="form_item"
-               v-for="(value, key) in currentParams"
-               :key="key">
-            <label :for="key">{{value.label}}
-            </label>
-            <input type="text"
-                   class="custom_input"
-                   :id="key"
-                   :placeholder="'请输入' + value.label"
-                   :name="key"
-                   v-model="requestArgs[key]" />
-          </div>
-          <div class="form_item operation"
-               v-if="Object.keys(remainsDynamicParams).length > 0">
-            <svg @click="showDynamicParamsModal">
-              <use xlink:href="#plus-circle"></use>
-            </svg>
-          </div>
-          <div class="form_footer"
-               :style="{borderTop: Object.keys(currentParams).length > 0 ? '1px solid #eeeeee' : '1px solid transparent'}">
-            <pre v-if="Object.keys(currentParams).length > 0">{{$route.params.method}}({{requestArgs}});</pre>
-            <pre v-else>{{$route.params.method}}();</pre>
-            <button class="btn_run"
-                    :class="[isRequesting ? 'running' : '']"
-                    @click="run">
-              <svg>
-                <use :xlink:href="isRequesting ? '#loading' : '#play'"></use>
-              </svg>
-              <span v-if="isRequesting">运行中...</span>
-              <span v-else>运行</span>
-            </button>
-            <Tooltip content="复制调用方法"
-                     placement="right"
-                     class="method_copy_wrapper">
-              <svg class="method_copy_ref">
-                <use xlink:href="#copy"></use>
-              </svg>
-            </Tooltip>
-          </div>
-        </form> -->
         <div class="result_container"
              :class="[(result.hasOwnProperty('data') && result.data) ? 'allow_copy' : '']">
           <div class="result_status_container"
@@ -156,15 +138,13 @@
 
     <Modal v-model="remainsDynamicParamsModalShown"
            title="添加参数"
-           :width="300"
-           @on-ok="addDynamicParams"
-           @on-cancel="resetDynamicParams">
+           :width="300">
       <div class="remains_item"
            style="width: 100%; height: 32px; display: flex; flex-direction: row; align-items: center;"
            v-for="(value, key) in currentDynamicParams"
            :key="key">
         <div class="remains_item_ck">
-          <Checkbox :value="renderDynamicParams.hasOwnProperty(key)"
+          <Checkbox :value="selectedDynamicParams.hasOwnProperty(key)"
                     @on-change="toggleRemainsItem($event, key)">
             <span style="font-size: 13px; margin-left: 5px;">{{value.label}}</span>
             <span style="margin-left: 5px;">{{key}}</span>
@@ -174,10 +154,13 @@
       <div slot="footer"
            class="remains_footer">
         <Checkbox :indeterminate="indeterminate"
-                  :value="checkedAll">全选</Checkbox>
+                  :value="checkedAll"
+                  @click.prevent.native="handleCheckAll">全选</Checkbox>
         <div class="remains_footer_btns">
-          <Button type="text">取消</Button>
-          <Button type="primary">确定</Button>
+          <Button type="text"
+                  @click="resetDynamicParams">取消</Button>
+          <Button type="primary"
+                  @click="addDynamicParams">确定</Button>
         </div>
       </div>
     </Modal>
@@ -314,15 +297,6 @@
     padding: 15px;
     overflow-y: auto;
   }
-  .methods_form .form_item {
-    font-size: 14px;
-    width: 100%;
-    margin: 10px 0;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
   .methods_form .form_item_operation {
     margin-bottom: 5px;
     padding-right: 5px;
@@ -339,24 +313,6 @@
   }
   .methods_form .form_item_operation svg:hover {
     opacity: 0.7;
-  }
-  .custom_input {
-    display: inline-block;
-    width: 220px;
-    height: 32px;
-    line-height: 1.5;
-    padding: 4px 7px;
-    box-sizing: border-box;
-    font-size: 14px;
-    border: 1px solid #dcdee2;
-    border-radius: 4px;
-    color: #515a6e;
-    background-color: #fff;
-    background-image: none;
-    position: relative;
-    cursor: text;
-    transition: border 0.2s ease-in-out, background 0.2s ease-in-out,
-      box-shadow 0.2s ease-in-out;
   }
   .form_footer {
     position: relative;
@@ -407,6 +363,7 @@
   }
   .form_footer button:focus {
     outline: none;
+    box-shadow: none;
   }
   .form_footer button:active,
   .form_footer button:hover {
@@ -515,7 +472,7 @@
   import * as Company from '../../../../plugins-3d/lib/domains/company/service'
   import jsonView from '../third/json-view'
   import Clipboard from 'clipboard'
-  import { Tooltip, Modal, Form, FormItem, Input, Button, Checkbox, Icon } from 'iview'
+  import { Tooltip, Modal, Form, FormItem, Input, Button, Checkbox, Icon, Switch, Select, Option } from 'iview'
   export default {
     name: 'DetailContent',
     props: {
@@ -529,7 +486,9 @@
     components: {
       jsonView,
       Tooltip,
-      Modal, Form, FormItem, Input, Button, Checkbox, Icon
+      Modal, Form, FormItem, Input, Button, Checkbox, Icon,
+      iSwitch: Switch,
+      Select, Option
     },
     data () {
       return {
@@ -545,7 +504,9 @@
         remainsDynamicParams: {}, // 剩余的动态参数
         selectedDynamicParams: {}, // 选中的动态参数
         renderDynamicParams: {},
-        remainsDynamicParamsModalShown: true
+        remainsDynamicParamsModalShown: false,
+        checkedAll: false,
+        indeterminate: false
       }
     },
     computed: {
@@ -570,18 +531,38 @@
       },
       currentDynamicParams () {
         return this.currentMethod.dynamicParams || {}
-      },
-      indeterminate () {
-        return (Object.keys(this.selectedDynamicParams).length !== Object.keys(this.currentDynamicParams).length) && (Object.keys(this.selectedDynamicParams).length > 0)
-      },
-      checkedAll () {
-        return (Object.keys(this.selectedDynamicParams).length === Object.keys(this.currentDynamicParams).length)
       }
     },
     mounted () {
       this.initClipboardBtns()
     },
     methods: {
+      handleCheckAll () {
+        if (this.indeterminate) {
+          this.checkedAll = false
+        } else {
+          this.checkedAll = !this.checkedAll
+        }
+        this.indeterminate = false
+        if (this.checkedAll) {
+          this.selectedDynamicParams = JSON.parse(JSON.stringify(this.currentDynamicParams))
+        } else {
+          this.selectedDynamicParams = {}
+        }
+      },
+      setCheckedAll () {
+        if (Object.keys(this.selectedDynamicParams).length === Object.keys(this.currentDynamicParams).length) {
+          this.checkedAll = true
+          this.indeterminate = false
+        } else {
+          if (Object.keys(this.selectedDynamicParams).length > 0) {
+            this.indeterminate = true
+          } else {
+            this.indeterminate = false
+          }
+          this.checkedAll = false
+        }
+      },
       initClipboardBtns () {
         let importCopyRef = new Clipboard('.import_copy_ref', {
           text: () => {
@@ -682,11 +663,13 @@
             delete this.selectedDynamicParams[key]
           }
         }
+        this.setCheckedAll()
       },
       addDynamicParams () {
         this.renderDynamicParams = Object.assign({}, this.selectedDynamicParams)
         this.requestArgs = this.formatArgs()
         this.selectedDynamicParams = {}
+        this.remainsDynamicParamsModalShown = false
       },
       removeDynamicParams (key) {
         if (this.renderDynamicParams.hasOwnProperty(key)) {
@@ -703,6 +686,7 @@
           this.remainsDynamicParams = Object.assign({}, this.remainsDynamicParams, this.selectedDynamicParams)
           // this.selectedDynamicParams = {}
         }
+        this.remainsDynamicParamsModalShown = false
       }
     },
     watch: {
@@ -716,6 +700,12 @@
         immediate: true,
         handler (val) {
           this.remainsDynamicParams = JSON.parse(JSON.stringify(val))
+        }
+      },
+      'selectedDynamicParams': {
+        immediate: true,
+        handler (val) {
+          this.setCheckedAll()
         }
       }
     }

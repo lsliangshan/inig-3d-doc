@@ -117,6 +117,7 @@
   .nav .head {
     padding: 0 15px;
     box-sizing: border-box;
+    font-size: 18px;
     height: 66px;
     color: #c8c8c8;
     border-bottom: 1px solid #444;
@@ -139,6 +140,7 @@
   }
   .nav ul li > a {
     line-height: 40px;
+    font-size: 14px;
     color: #ccc;
     text-decoration: none;
     transition: color 0.1s ease-in-out;
@@ -159,6 +161,7 @@
     overflow: hidden;
   }
   .nav .sub_items .sub_item_inner {
+    margin-right: 30px;
     box-sizing: border-box;
     background-color: #383838;
     border-radius: 5px;
@@ -166,7 +169,7 @@
   }
   .nav .sub_items .sub_item_inner .sub_item > a {
     display: flex;
-    font-size: 14px;
+    font-size: 13px;
     color: #888;
     line-height: 40px;
     text-decoration: none;
@@ -177,7 +180,7 @@
   }
   .nav .sub_items .sub_item_inner .sub_item > a.active {
     color: #42b983 !important;
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .content {

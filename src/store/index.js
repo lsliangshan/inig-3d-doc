@@ -149,6 +149,16 @@ const store = new Vuex.Store({
                 type: 'String',
                 default: '',
                 label: '全文关键词'
+              },
+              'pageIndex': {
+                type: 'Number',
+                default: 1,
+                label: '页码'
+              },
+              'pageSize': {
+                type: 'Number',
+                default: 20,
+                label: '每页条数'
               }
             },
             dynamicParams: {
@@ -184,36 +194,88 @@ const store = new Vuex.Store({
                   {
                     label: '高薪职位',
                     value: 5
-                  },
-                  {
-                    label: '闪聘',
-                    value: 6
-                  },
-                  {
-                    label: '公司在招职位筛选',
-                    value: 7
                   }
                 ]
+              },
+              'salary': {
+                type: 'String',
+                default: '',
+                label: '薪资'
+              },
+              'coordinate': {
+                type: 'String',
+                default: '',
+                label: '经纬度范围'
               },
               'jobType': {
                 type: 'String',
                 default: '',
                 label: '职位类型'
               },
-              'workCity': {
+              'industry': {
                 type: 'String',
                 default: '',
+                label: '行业类别'
+              },
+              'welfareTag': {
+                type: 'String',
+                default: '',
+                label: '福利标签ID'
+              },
+              'publishDate': {
+                type: 'String',
+                default: '',
+                label: '发布时间'
+              },
+              'companyName': {
+                type: 'String',
+                default: '',
+                label: '公司名称'
+              },
+              'jobName': {
+                type: 'String',
+                default: '',
+                label: '职位名称'
+              },
+              'workCity': {
+                type: 'String',
+                default: '530',
                 label: '工作城市'
               },
               'experience': {
                 type: 'String',
                 default: '',
-                label: '工作经验要求'
+                label: '工作经验要求ID'
               },
               'education': {
                 type: 'String',
                 default: '',
-                label: '学历要求'
+                label: '学历要求ID'
+              },
+              'companyType': {
+                type: 'String',
+                default: '',
+                label: '公司性质ID'
+              },
+              'companyScale': {
+                type: 'String',
+                default: '',
+                label: '公司规模ID'
+              },
+              'jobId': {
+                type: 'String',
+                default: '',
+                label: '职位ID'
+              },
+              'companyId': {
+                type: 'String',
+                default: '',
+                label: '公司ID'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: '',
+                label: '简历编号'
               }
             }
           },
