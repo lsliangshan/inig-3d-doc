@@ -72,10 +72,13 @@
         return outIndex
       },
       navigateTo (domain, method, label) {
-        document.title = label
-        this.$router.replace({
-          path: '/' + domain + '/' + method
-        })
+        let targetPath = '/' + domain + '/' + method
+        if (this.$route.path !== targetPath) {
+          document.title = label
+          this.$router.replace({
+            path: targetPath
+          })
+        }
       }
     }
   }
@@ -102,7 +105,7 @@
     min-width: 1000px;
     height: 100%;
     /* display: flex;
-        flex-direction: row; */
+              flex-direction: row; */
   }
   .nav {
     position: absolute;

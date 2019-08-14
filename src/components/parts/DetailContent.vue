@@ -17,10 +17,15 @@
       <p class="highlight_title">使用</p>
       <div class="usage_container">
         <Form :label-width="90"
-              class="methods_form">
+              class="methods_form"
+              action="javascript:void(0)">
           <FormItem v-for="(value, key) in currentParams"
-                    :key="key"
-                    :label="value.label">
+                    :key="key">
+            <Tooltip slot="label"
+                     :content="key"
+                     placement="bottom">
+              <div>{{value.label}}</div>
+            </Tooltip>
             <i-switch v-if="value.type === 'Boolean'"
                       v-model="requestArgs[key]"></i-switch>
             <Select v-else-if="(value.options instanceof Array)"
@@ -37,11 +42,14 @@
           </FormItem>
           <FormItem v-for="(value, key) in renderDynamicParams"
                     :key="key"
-                    :label="value.label"
                     class="dynamic_item">
+            <Tooltip slot="label"
+                     :content="key"
+                     placement="bottom">
+              <div>{{value.label}}</div>
+            </Tooltip>
             <i-switch v-if="value.type === 'Boolean'"
-                      v-model="requestArgs[key]"
-                      style="width: calc(100% - 40px);"></i-switch>
+                      v-model="requestArgs[key]"></i-switch>
             <Select v-else-if="(value.options instanceof Array)"
                     style="width: calc(100% - 40px);"
                     v-model="requestArgs[key]">
@@ -138,7 +146,8 @@
 
     <Modal v-model="remainsDynamicParamsModalShown"
            title="添加参数"
-           :width="300">
+           :width="300"
+           @on-cancel="resetDynamicParams">
       <div class="remains_item"
            style="width: 100%; height: 32px; display: flex; flex-direction: row; align-items: center;"
            v-for="(value, key) in currentDynamicParams"
@@ -546,8 +555,10 @@
         this.indeterminate = false
         if (this.checkedAll) {
           this.selectedDynamicParams = JSON.parse(JSON.stringify(this.currentDynamicParams))
+          this.remainsDynamicParams = {}
         } else {
           this.selectedDynamicParams = {}
+          this.remainsDynamicParams = JSON.parse(JSON.stringify(this.currentDynamicParams))
         }
       },
       setCheckedAll () {
@@ -684,7 +695,6 @@
       resetDynamicParams () {
         if (Object.keys(this.selectedDynamicParams).length > 0) {
           this.remainsDynamicParams = Object.assign({}, this.remainsDynamicParams, this.selectedDynamicParams)
-          // this.selectedDynamicParams = {}
         }
         this.remainsDynamicParamsModalShown = false
       }
@@ -694,6 +704,7 @@
         immediate: true,
         handler (val) {
           this.requestArgs = this.formatArgs()
+          this.renderDynamicParams = {}
         }
       },
       'currentDynamicParams': {

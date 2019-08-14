@@ -101,20 +101,10 @@ const store = new Vuex.Store({
             label: '获取推荐职位',
             name: 'requestRecommendJobs',
             params: {
-              'resumeVersion': {
-                type: 'String',
-                default: '1',
-                label: '简历版本'
-              },
               'resumeNumber': {
                 type: 'String',
                 default: DEFAULT_CONFIG.resumeNumber,
                 label: '简历编号'
-              },
-              'isCompus': {
-                type: 'String',
-                default: '0', // 0: 非学生； 1：学生
-                label: '是否学生'
               },
               'eventScenario': {
                 type: 'String',
@@ -139,6 +129,18 @@ const store = new Vuex.Store({
                   }
                 ]
               }
+            },
+            dynamicParams: {
+              'resumeVersion': {
+                type: 'String',
+                default: '1',
+                label: '简历版本'
+              },
+              'isCompus': {
+                type: 'String',
+                default: '0', // 0: 非学生； 1：学生
+                label: '是否学生'
+              }
             }
           },
           {
@@ -149,16 +151,6 @@ const store = new Vuex.Store({
                 type: 'String',
                 default: '',
                 label: '全文关键词'
-              },
-              'pageIndex': {
-                type: 'Number',
-                default: 1,
-                label: '页码'
-              },
-              'pageSize': {
-                type: 'Number',
-                default: 20,
-                label: '每页条数'
               }
             },
             dynamicParams: {
@@ -276,6 +268,16 @@ const store = new Vuex.Store({
                 type: 'String',
                 default: '',
                 label: '简历编号'
+              },
+              'pageIndex': {
+                type: 'Number',
+                default: 1,
+                label: '页码'
+              },
+              'pageSize': {
+                type: 'Number',
+                default: 20,
+                label: '每页条数'
               }
             }
           },
@@ -287,16 +289,12 @@ const store = new Vuex.Store({
                 type: 'String',
                 default: DEFAULT_CONFIG.jobNumber,
                 label: '职位编号'
-              },
-
-              'channel': {
-                type: 'String',
-                default: 'pc',
-                label: '渠道'
-              },
+              }
+            },
+            dynamicParams: {
               'feedback': {
                 type: 'Boolean',
-                default: true,
+                default: false,
                 label: '组装反馈数据'
               }
             }
@@ -310,15 +308,17 @@ const store = new Vuex.Store({
                 default: DEFAULT_CONFIG.jobNumber,
                 label: '职位编号'
               },
-              'subJobType': {
-                type: Number,
-                default: 6,
-                label: '职位类别'
-              },
               'cityId': {
                 type: 'String',
-                default: '571',
+                default: '530',
                 label: '城市ID'
+              }
+            },
+            dynamicParams: {
+              'pageIndex': {
+                type: 'Number',
+                default: 1,
+                label: '页码'
               }
             }
           },
@@ -326,15 +326,22 @@ const store = new Vuex.Store({
             label: '获取在招职位',
             name: 'requestAreaJobs',
             params: {
-              'companyId': {
+              'companyNumber': {
                 type: 'String',
                 default: DEFAULT_CONFIG.companyNumber + ';CZ407312210', // 多个值用;号区分
                 label: '公司编号'
               },
               'workCity': {
                 type: 'String',
-                default: '',
+                default: '530',
                 label: '工作城市ID'
+              }
+            },
+            dynamicParams: {
+              'pageIndex': {
+                type: 'Number',
+                default: 1,
+                label: '页码'
               }
             }
           },
@@ -342,26 +349,50 @@ const store = new Vuex.Store({
             label: '获取在招职位所在城市',
             name: 'requestAreaJobCity',
             params: {
-              'companyNumber': {
+              'number': {
                 type: 'String',
                 default: DEFAULT_CONFIG.jobNumber,
                 label: '职位编号'
               }
+            },
+            dynamicParams: {
+              'pageIndex': {
+                type: 'Number',
+                default: 1,
+                label: '页码'
+              }
             }
           },
           {
-            label: '收藏职位',
+            label: '收藏、取消收藏职位',
             name: 'requestJobCollection',
             params: {
-              'positionNumbers': {
+              'number': {
                 type: 'String',
                 default: DEFAULT_CONFIG.jobNumber,
                 label: '职位编号'
               },
-              'cityIds': {
+              'cityId': {
                 type: 'String',
                 default: '530',
                 label: '城市ID'
+              }
+            },
+            dynamicParams: {
+              'operateType': {
+                type: 'Number',
+                default: 3,
+                label: '操作类型',
+                options: [
+                  {
+                    label: '收藏职位',
+                    value: 3
+                  },
+                  {
+                    label: '取消收藏职位',
+                    value: 7
+                  }
+                ]
               }
             }
           },
@@ -369,7 +400,7 @@ const store = new Vuex.Store({
             label: '投递职位',
             name: 'requestJobDeliver',
             params: {
-              'positionNumbers': {
+              'number': {
                 type: 'String',
                 default: DEFAULT_CONFIG.jobNumber,
                 label: '职位编号'
@@ -380,13 +411,23 @@ const store = new Vuex.Store({
                 label: '简历编号'
               },
               'deliveryWay': {
-                type: 'String',
-                default: '0',
-                label: '是否批投'
+                type: 'Number',
+                default: 0,
+                label: '投递类型',
+                options: [
+                  {
+                    label: '单投',
+                    value: 0
+                  },
+                  {
+                    label: '批投',
+                    value: 1
+                  }
+                ]
               },
-              'cityIds': {
+              'cityId': {
                 type: 'String',
-                default: '565',
+                default: '530',
                 label: '城市ID'
               },
               'inviteCode': {
@@ -394,15 +435,45 @@ const store = new Vuex.Store({
                 default: '',
                 label: '内推码'
               },
-              'channel': {
-                type: 'String',
-                default: 'pc',
-                label: '渠道'
+              'stAction': {
+                type: 'Number',
+                default: 601,
+                label: '来源的用户行为'
               },
-              'st_action': {
-                type: 'String',
-                default: '701',
-                label: '职位来源'
+              'stPage': {
+                type: 'Number',
+                default: 50,
+                label: '来源页'
+              },
+              'askPageCode': {
+                type: 'Number',
+                default: '',
+                label: '请求页pagecode'
+              }
+            },
+            dynamicParams: {
+              'cycleType': {
+                type: 'Number',
+                default: 0,
+                label: '闭环类型',
+                options: [
+                  {
+                    label: '默认',
+                    value: 0
+                  },
+                  {
+                    label: '公司-职位',
+                    value: 1
+                  },
+                  {
+                    label: '职位-职位',
+                    value: 2
+                  },
+                  {
+                    label: '职位-投递完成',
+                    value: 3
+                  }
+                ]
               }
             }
           },
