@@ -51,8 +51,8 @@ const DEFAULT_CONFIG = {
   resumeNumber: 'JM809213719R90250000000',
   platform: '13',
   userId: '705788774',
-  at: '39b7fa7e518f449487ac1e0cfdbb9d8e',
-  rt: '0a0200e54dc145caadd9ffe8a67bc095'
+  at: '2e80b0e4dbad4b55abd5fea6f7349d58',
+  rt: 'c8d08a37e2b34df196980126c1178989'
 }
 
 const store = new Vuex.Store({
