@@ -331,7 +331,7 @@ const store = new Vuex.Store({
                 default: DEFAULT_CONFIG.companyNumber + ';CZ407312210', // 多个值用;号区分
                 label: '公司编号'
               },
-              'workCity': {
+              'cityId': {
                 type: 'String',
                 default: '530',
                 label: '工作城市ID'
