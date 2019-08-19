@@ -3,8 +3,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { INIG } from '../../plugins-3d'
+// import iView from 'iview'
+import 'iview/dist/styles/iview.css'
 import iziToast from 'izitoast'
 import 'izitoast/dist/css/iziToast.min.css'
+
+// Vue.use(iView)
 
 Vue.config.productionTip = false
 INIG({
