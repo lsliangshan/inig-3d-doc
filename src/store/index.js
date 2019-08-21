@@ -105,7 +105,9 @@ const store = new Vuex.Store({
                 type: 'String',
                 default: DEFAULT_CONFIG.resumeNumber,
                 label: '简历编号'
-              },
+              }
+            },
+            dynamicParams: {
               'eventScenario': {
                 type: 'String',
                 default: 'weexAppHome',
@@ -128,15 +130,13 @@ const store = new Vuex.Store({
                     value: 'nativeAndroidHome'
                   }
                 ]
-              }
-            },
-            dynamicParams: {
+              },
               'resumeVersion': {
                 type: 'String',
                 default: '1',
                 label: '简历版本'
               },
-              'isCompus': {
+              'isCampus': {
                 type: 'String',
                 default: '0', // 0: 非学生； 1：学生
                 label: '是否学生'
