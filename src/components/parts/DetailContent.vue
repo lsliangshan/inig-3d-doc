@@ -479,6 +479,7 @@
   import * as Job from '../../../../plugins-3d/lib/domains/job/service'
   import * as User from '../../../../plugins-3d/lib/domains/user/service'
   import * as Company from '../../../../plugins-3d/lib/domains/company/service'
+  import * as Resume from '../../../../plugins-3d/lib/domains/resume/service'
   import jsonView from '../third/json-view'
   import Clipboard from 'clipboard'
   import { Tooltip, Modal, Form, FormItem, Input, Button, Checkbox, Icon, Switch, Select, Option } from 'iview'
@@ -504,7 +505,8 @@
         DOMAIN: {
           job: Job,
           user: User,
-          company: Company
+          company: Company,
+          resume: Resume
         },
         requestArgs: {},
         result: {
