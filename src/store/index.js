@@ -48,7 +48,15 @@ const DEFAULT_CONFIG = {
   companyName: '广州热招测试有限公司',
   rootCompanyId: '87560889',
   companyId: '87560889',
-  resumeNumber: 'JM809213719R90250000000',
+  resumeName: '测试简历',
+  resumeId: '312604895',
+  resumeNumber: 'JL203611385R90500000000',
+  resumeVersion: 1,
+  resumeLanguage: 1,
+  nodeName: 'WorkExperience',
+  resumeSid: '16608a08e69b475e886f1ac22db0d8cc',
+  resumeBusinessInfo: 'JL203611385R90500000000_1',
+  resumeAvatarUrl: 'http://mypics.zhaopin.cn/attachment/2019/08/07/c12ad23a-cbf5-4300-bf63-36ab28176a80.png',
   platform: '13',
   userId: '705788774',
   at: '2e80b0e4dbad4b55abd5fea6f7349d58',
@@ -137,9 +145,19 @@ const store = new Vuex.Store({
                 label: '简历版本'
               },
               'isCampus': {
-                type: 'String',
-                default: '0', // 0: 非学生； 1：学生
-                label: '是否学生'
+                type: 'Number',
+                default: 0, // 0: 非学生； 1：学生
+                label: '是否学生',
+                options: [
+                  {
+                    label: '非学生',
+                    value: 0
+                  },
+                  {
+                    label: '学生',
+                    value: 1
+                  }
+                ]
               }
             }
           },
@@ -575,7 +593,584 @@ const store = new Vuex.Store({
         label: '简历领域',
         name: 'resume',
         children: [
-
+          {
+            label: '获取简历节点信息',
+            name: 'requestResumeGetNode',
+            params: {
+              'resumeId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeId,
+                label: '简历ID'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeNumber,
+                label: '简历编号'
+              },
+              'resumeVersion': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeVersion,
+                label: '简历版本号'
+              },
+              'resumeLanguage': {
+                type: 'Number',
+                default: DEFAULT_CONFIG.resumeLanguage,
+                label: '简历语言',
+                options: [
+                  {
+                    label: '中文',
+                    value: 1
+                  },
+                  {
+                    label: '英文',
+                    value: 2
+                  },
+                  {
+                    label: '中英文',
+                    value: 3
+                  }
+                ]
+              },
+              'nodeName': {
+                type: 'String',
+                default: DEFAULT_CONFIG.nodeName,
+                label: '简历节点',
+                options: [
+                  {
+                    label: '个人信息',
+                    value: 'Profile'
+                  },
+                  {
+                    label: '不验证邮箱的个人信息',
+                    value: 'ProfileMobileOutEmail'
+                  },
+                  {
+                    label: '求职意向',
+                    value: 'JobTarget'
+                  },
+                  {
+                    label: '工作经验',
+                    value: 'WorkExperience'
+                  },
+                  {
+                    label: '教育背景',
+                    value: 'EducationExperience'
+                  },
+                  {
+                    label: '项目经验',
+                    value: 'ProjectExperience'
+                  },
+                  {
+                    label: '自我评价',
+                    value: 'SelfEvaluation'
+                  },
+                  {
+                    label: '语言能力',
+                    value: 'LanguageSkill'
+                  },
+                  {
+                    label: '培训经历',
+                    value: 'TrainExperience'
+                  },
+                  {
+                    label: '专业技能',
+                    value: 'ProfessionalSkill'
+                  },
+                  {
+                    label: '证书',
+                    value: 'Certificate'
+                  },
+                  {
+                    label: '图片附件',
+                    value: 'Attach'
+                  }
+                ]
+              }
+            }
+          },
+          {
+            label: '添加或更新简历节点信息',
+            name: 'requestResumeSetNode',
+            params: {
+              'resumeId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeId,
+                label: '简历ID'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeNumber,
+                label: '简历编号'
+              },
+              'resumeVersion': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeVersion,
+                label: '简历版本号'
+              },
+              'resumeLanguage': {
+                type: 'Number',
+                default: DEFAULT_CONFIG.resumeLanguage,
+                label: '简历语言',
+                options: [
+                  {
+                    label: '中文',
+                    value: 1
+                  },
+                  {
+                    label: '英文',
+                    value: 2
+                  },
+                  {
+                    label: '中英文',
+                    value: 3
+                  }
+                ]
+              },
+              'nodeName': {
+                type: 'String',
+                default: DEFAULT_CONFIG.nodeName,
+                label: '简历节点',
+                options: [
+                  {
+                    label: '个人信息',
+                    value: 'Profile'
+                  },
+                  {
+                    label: '不验证邮箱的个人信息',
+                    value: 'ProfileMobileOutEmail'
+                  },
+                  {
+                    label: '求职意向',
+                    value: 'JobTarget'
+                  },
+                  {
+                    label: '工作经验',
+                    value: 'WorkExperience'
+                  },
+                  {
+                    label: '教育背景',
+                    value: 'EducationExperience'
+                  },
+                  {
+                    label: '项目经验',
+                    value: 'ProjectExperience'
+                  },
+                  {
+                    label: '自我评价',
+                    value: 'SelfEvaluation'
+                  },
+                  {
+                    label: '语言能力',
+                    value: 'LanguageSkill'
+                  },
+                  {
+                    label: '培训经历',
+                    value: 'TrainExperience'
+                  },
+                  {
+                    label: '专业技能',
+                    value: 'ProfessionalSkill'
+                  },
+                  {
+                    label: '证书',
+                    value: 'Certificate'
+                  },
+                  {
+                    label: '图片附件',
+                    value: 'Attach'
+                  }
+                ]
+              },
+              'values': {
+                type: 'Object',
+                default: {},
+                label: '节点详细内容',
+              },
+            }
+          },
+          {
+            label: '删除简历节点信息',
+            name: 'requestResumeDeleteNode',
+            params: {
+              'resumeId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeId,
+                label: '简历ID'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeNumber,
+                label: '简历编号'
+              },
+              'resumeVersion': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeVersion,
+                label: '简历版本号'
+              },
+              'resumeLanguage': {
+                type: 'Number',
+                default: DEFAULT_CONFIG.resumeLanguage,
+                label: '简历语言',
+                options: [
+                  {
+                    label: '中文',
+                    value: 1
+                  },
+                  {
+                    label: '英文',
+                    value: 2
+                  },
+                  {
+                    label: '中英文',
+                    value: 3
+                  }
+                ]
+              },
+              'nodeName': {
+                type: 'String',
+                default: DEFAULT_CONFIG.nodeName,
+                label: '简历节点',
+                options: [
+                  {
+                    label: '个人信息',
+                    value: 'Profile'
+                  },
+                  {
+                    label: '不验证邮箱的个人信息',
+                    value: 'ProfileMobileOutEmail'
+                  },
+                  {
+                    label: '求职意向',
+                    value: 'JobTarget'
+                  },
+                  {
+                    label: '工作经验',
+                    value: 'WorkExperience'
+                  },
+                  {
+                    label: '教育背景',
+                    value: 'EducationExperience'
+                  },
+                  {
+                    label: '项目经验',
+                    value: 'ProjectExperience'
+                  },
+                  {
+                    label: '自我评价',
+                    value: 'SelfEvaluation'
+                  },
+                  {
+                    label: '语言能力',
+                    value: 'LanguageSkill'
+                  },
+                  {
+                    label: '培训经历',
+                    value: 'TrainExperience'
+                  },
+                  {
+                    label: '专业技能',
+                    value: 'ProfessionalSkill'
+                  },
+                  {
+                    label: '证书',
+                    value: 'Certificate'
+                  },
+                  {
+                    label: '图片附件',
+                    value: 'Attach'
+                  }
+                ]
+              }
+            },
+            dynamicParams: {
+              'markId': {
+                type: 'String',
+                default: '',
+                label: '简历节点markId'
+              }
+            }
+          },
+          {
+            label: '预览简历',
+            name: 'requestResumePreview',
+            params: {
+              'resumeId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeId,
+                label: '简历ID'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeNumber,
+                label: '简历编号'
+              },
+              'resumeVersion': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeVersion,
+                label: '简历版本号'
+              },
+              'resumeLanguage': {
+                type: 'Number',
+                default: DEFAULT_CONFIG.resumeLanguage,
+                label: '简历语言',
+                options: [
+                  {
+                    label: '中文',
+                    value: 1
+                  },
+                  {
+                    label: '英文',
+                    value: 2
+                  },
+                  {
+                    label: '中英文',
+                    value: 3
+                  }
+                ]
+              },
+              'ignoreEmpty': {
+                type: 'Number',
+                default: 0,
+                label: '忽略空节点',
+                options: [
+                  {
+                    label: '不忽略',
+                    value: 0
+                  },
+                  {
+                    label: '忽略',
+                    value: 1
+                  }
+                ]
+              },
+            }
+          },
+          {
+            label: '删除简历',
+            name: 'requestResumeDelete',
+            params: {
+              'resumeId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeId,
+                label: '简历ID'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeNumber,
+                label: '简历编号'
+              },
+              'resumeVersion': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeVersion,
+                label: '简历版本号'
+              },
+              'resumeLanguage': {
+                type: 'Number',
+                default: DEFAULT_CONFIG.resumeLanguage,
+                label: '简历语言',
+                options: [
+                  {
+                    label: '中文',
+                    value: 1
+                  },
+                  {
+                    label: '英文',
+                    value: 2
+                  },
+                  {
+                    label: '中英文',
+                    value: 3
+                  }
+                ]
+              },
+            }
+          },
+          {
+            // 操作简历-刷新、设置或取消默认简历、设置或取消公开简历
+            label: '操作简历',
+            name: 'requestResumeOperate',
+            params: {
+              'resumeId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeId,
+                label: '简历ID'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeNumber,
+                label: '简历编号'
+              },
+              'resumeVersion': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeVersion,
+                label: '简历版本号'
+              },
+              'resumeLanguage': {
+                type: 'Number',
+                default: DEFAULT_CONFIG.resumeLanguage,
+                label: '简历语言',
+                options: [
+                  {
+                    label: '中文',
+                    value: 1
+                  },
+                  {
+                    label: '英文',
+                    value: 2
+                  },
+                  {
+                    label: '中英文',
+                    value: 3
+                  }
+                ]
+              },
+              'operateType': {
+                type: 'Number',
+                default: 0,
+                label: '简历语言',
+                options: [
+                  {
+                    label: '刷新简历',
+                    value: 0
+                  },
+                  {
+                    label: '设置默认简历',
+                    value: 1
+                  },
+                  {
+                    label: '取消默认简历',
+                    value: 8
+                  },
+                  {
+                    label: '设置公开简历',
+                    value: 4
+                  },
+                  {
+                    label: '取消公开简历',
+                    value: 6
+                  }
+                ]
+              }
+            }
+          },
+          {
+            label: '修改简历名称',
+            name: 'requestResumeModifyName',
+            params: {
+              'resumeName': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeName,
+                label: '简历名称'
+              },
+              'resumeId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeId,
+                label: '简历ID'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeNumber,
+                label: '简历编号'
+              },
+              'resumeVersion': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeVersion,
+                label: '简历版本号'
+              },
+              'resumeLanguage': {
+                type: 'Number',
+                default: DEFAULT_CONFIG.resumeLanguage,
+                label: '简历语言',
+                options: [
+                  {
+                    label: '中文',
+                    value: 1
+                  },
+                  {
+                    label: '英文',
+                    value: 2
+                  },
+                  {
+                    label: '中英文',
+                    value: 3
+                  }
+                ]
+              }
+            }
+          },
+          {
+            label: '获取简历置顶服务',
+            name: 'requestResumeTopService',
+            params: {
+              'sid': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeSid,
+                label: '简历服务id'
+              },
+              // 服务标识，比如ResumeNumber_1(简历编号_简历版本号)
+              'businessInfo': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeBusinessInfo,
+                label: '服务标识'
+              }
+            }
+          },
+          {
+            label: '获取简历列表PC',
+            name: 'requestResumeListPC',
+            params: {}
+          },
+          {
+            label: '简历头像图片鉴定PC',
+            name: 'requestResumeGreenScanPC',
+            params: {
+              'url': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeAvatarUrl,
+                label: '简历头像Url'
+              }
+            }
+          },
+          {
+            label: '获取完善到简历的第几步',
+            name: 'requestResumeStatus',
+            params: {
+              'resumeId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeId,
+                label: '简历ID'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeNumber,
+                label: '简历编号'
+              },
+              'resumeVersion': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeVersion,
+                label: '简历版本号'
+              },
+              'resumeLanguage': {
+                type: 'Number',
+                default: DEFAULT_CONFIG.resumeLanguage,
+                label: '简历语言',
+                options: [
+                  {
+                    label: '中文',
+                    value: 1
+                  },
+                  {
+                    label: '英文',
+                    value: 2
+                  },
+                  {
+                    label: '中英文',
+                    value: 3
+                  }
+                ]
+              }
+            }
+          }
         ]
       },
       {
