@@ -51,7 +51,7 @@ const DEFAULT_CONFIG = {
   resumeName: '测试简历',
   resumeId: '312604895',
   resumeNumber: 'JL203611385R90500000000',
-  resumeVersion: 1,
+  resumeVersion: '1',
   resumeLanguage: 1,
   nodeName: 'WorkExperience',
   resumeSid: '16608a08e69b475e886f1ac22db0d8cc',
@@ -607,30 +607,6 @@ const store = new Vuex.Store({
                 default: DEFAULT_CONFIG.resumeNumber,
                 label: '简历编号'
               },
-              'resumeVersion': {
-                type: 'String',
-                default: DEFAULT_CONFIG.resumeVersion,
-                label: '简历版本号'
-              },
-              'resumeLanguage': {
-                type: 'Number',
-                default: DEFAULT_CONFIG.resumeLanguage,
-                label: '简历语言',
-                options: [
-                  {
-                    label: '中文',
-                    value: 1
-                  },
-                  {
-                    label: '英文',
-                    value: 2
-                  },
-                  {
-                    label: '中英文',
-                    value: 3
-                  }
-                ]
-              },
               'nodeName': {
                 type: 'String',
                 default: DEFAULT_CONFIG.nodeName,
@@ -686,22 +662,8 @@ const store = new Vuex.Store({
                   }
                 ]
               }
-            }
-          },
-          {
-            label: '添加或更新简历节点信息',
-            name: 'requestResumeSetNode',
-            params: {
-              'resumeId': {
-                type: 'String',
-                default: DEFAULT_CONFIG.resumeId,
-                label: '简历ID'
-              },
-              'resumeNumber': {
-                type: 'String',
-                default: DEFAULT_CONFIG.resumeNumber,
-                label: '简历编号'
-              },
+            },
+            dynamicParams: {
               'resumeVersion': {
                 type: 'String',
                 default: DEFAULT_CONFIG.resumeVersion,
@@ -719,12 +681,24 @@ const store = new Vuex.Store({
                   {
                     label: '英文',
                     value: 2
-                  },
-                  {
-                    label: '中英文',
-                    value: 3
                   }
                 ]
+              }
+            }
+          },
+          {
+            label: '添加或更新简历节点信息',
+            name: 'requestResumeSetNode',
+            params: {
+              'resumeId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeId,
+                label: '简历ID'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeNumber,
+                label: '简历编号'
               },
               'nodeName': {
                 type: 'String',
@@ -786,22 +760,8 @@ const store = new Vuex.Store({
                 default: {},
                 label: '节点详细内容',
               },
-            }
-          },
-          {
-            label: '删除简历节点信息',
-            name: 'requestResumeDeleteNode',
-            params: {
-              'resumeId': {
-                type: 'String',
-                default: DEFAULT_CONFIG.resumeId,
-                label: '简历ID'
-              },
-              'resumeNumber': {
-                type: 'String',
-                default: DEFAULT_CONFIG.resumeNumber,
-                label: '简历编号'
-              },
+            },
+            dynamicParams: {
               'resumeVersion': {
                 type: 'String',
                 default: DEFAULT_CONFIG.resumeVersion,
@@ -819,12 +779,24 @@ const store = new Vuex.Store({
                   {
                     label: '英文',
                     value: 2
-                  },
-                  {
-                    label: '中英文',
-                    value: 3
                   }
                 ]
+              }
+            }
+          },
+          {
+            label: '删除简历节点信息',
+            name: 'requestResumeDeleteNode',
+            params: {
+              'resumeId': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeId,
+                label: '简历ID'
+              },
+              'resumeNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeNumber,
+                label: '简历编号'
               },
               'nodeName': {
                 type: 'String',
@@ -880,13 +852,33 @@ const store = new Vuex.Store({
                     value: 'Attach'
                   }
                 ]
-              }
-            },
-            dynamicParams: {
+              },
               'markId': {
                 type: 'String',
                 default: '',
-                label: '简历节点markId'
+                label: 'markId'
+              }
+            },
+            dynamicParams: {
+              'resumeVersion': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeVersion,
+                label: '简历版本号'
+              },
+              'resumeLanguage': {
+                type: 'Number',
+                default: DEFAULT_CONFIG.resumeLanguage,
+                label: '简历语言',
+                options: [
+                  {
+                    label: '中文',
+                    value: 1
+                  },
+                  {
+                    label: '英文',
+                    value: 2
+                  }
+                ]
               }
             }
           },
@@ -904,6 +896,23 @@ const store = new Vuex.Store({
                 default: DEFAULT_CONFIG.resumeNumber,
                 label: '简历编号'
               },
+              'ignoreEmpty': {
+                type: 'Number',
+                default: 1,
+                label: '忽略空节点',
+                options: [
+                  {
+                    label: '不忽略',
+                    value: 0
+                  },
+                  {
+                    label: '忽略',
+                    value: 1
+                  }
+                ]
+              },
+            },
+            dynamicParams: {
               'resumeVersion': {
                 type: 'String',
                 default: DEFAULT_CONFIG.resumeVersion,
@@ -921,28 +930,47 @@ const store = new Vuex.Store({
                   {
                     label: '英文',
                     value: 2
-                  },
-                  {
-                    label: '中英文',
-                    value: 3
                   }
                 ]
-              },
-              'ignoreEmpty': {
+              }
+            }
+          },
+          {
+            label: '创建简历',
+            name: 'requestResumeCreate',
+            params: {
+              'resumeType': {
                 type: 'Number',
                 default: 0,
-                label: '忽略空节点',
+                label: '简历类型',
                 options: [
                   {
-                    label: '不忽略',
+                    label: '社招简历',
                     value: 0
                   },
                   {
-                    label: '忽略',
+                    label: '学生简历',
                     value: 1
                   }
                 ]
-              },
+              }
+            },
+            dynamicParams: {
+              'resumeLanguage': {
+                type: 'Number',
+                default: DEFAULT_CONFIG.resumeLanguage,
+                label: '简历语言',
+                options: [
+                  {
+                    label: '中文',
+                    value: 1
+                  },
+                  {
+                    label: '英文',
+                    value: 2
+                  }
+                ]
+              }
             }
           },
           {
@@ -958,7 +986,9 @@ const store = new Vuex.Store({
                 type: 'String',
                 default: DEFAULT_CONFIG.resumeNumber,
                 label: '简历编号'
-              },
+              }
+            },
+            dynamicParams: {
               'resumeVersion': {
                 type: 'String',
                 default: DEFAULT_CONFIG.resumeVersion,
@@ -976,13 +1006,9 @@ const store = new Vuex.Store({
                   {
                     label: '英文',
                     value: 2
-                  },
-                  {
-                    label: '中英文',
-                    value: 3
                   }
                 ]
-              },
+              }
             }
           },
           {
@@ -1000,34 +1026,10 @@ const store = new Vuex.Store({
                 default: DEFAULT_CONFIG.resumeNumber,
                 label: '简历编号'
               },
-              'resumeVersion': {
-                type: 'String',
-                default: DEFAULT_CONFIG.resumeVersion,
-                label: '简历版本号'
-              },
-              'resumeLanguage': {
-                type: 'Number',
-                default: DEFAULT_CONFIG.resumeLanguage,
-                label: '简历语言',
-                options: [
-                  {
-                    label: '中文',
-                    value: 1
-                  },
-                  {
-                    label: '英文',
-                    value: 2
-                  },
-                  {
-                    label: '中英文',
-                    value: 3
-                  }
-                ]
-              },
               'operateType': {
                 type: 'Number',
                 default: 0,
-                label: '简历语言',
+                label: '操作简历',
                 options: [
                   {
                     label: '刷新简历',
@@ -1051,6 +1053,28 @@ const store = new Vuex.Store({
                   }
                 ]
               }
+            },
+            dynamicParams: {
+              'resumeVersion': {
+                type: 'String',
+                default: DEFAULT_CONFIG.resumeVersion,
+                label: '简历版本号'
+              },
+              'resumeLanguage': {
+                type: 'Number',
+                default: DEFAULT_CONFIG.resumeLanguage,
+                label: '简历语言',
+                options: [
+                  {
+                    label: '中文',
+                    value: 1
+                  },
+                  {
+                    label: '英文',
+                    value: 2
+                  }
+                ]
+              }
             }
           },
           {
@@ -1071,7 +1095,9 @@ const store = new Vuex.Store({
                 type: 'String',
                 default: DEFAULT_CONFIG.resumeNumber,
                 label: '简历编号'
-              },
+              }
+            },
+            dynamicParams: {
               'resumeVersion': {
                 type: 'String',
                 default: DEFAULT_CONFIG.resumeVersion,
@@ -1089,10 +1115,6 @@ const store = new Vuex.Store({
                   {
                     label: '英文',
                     value: 2
-                  },
-                  {
-                    label: '中英文',
-                    value: 3
                   }
                 ]
               }
@@ -1144,7 +1166,9 @@ const store = new Vuex.Store({
                 type: 'String',
                 default: DEFAULT_CONFIG.resumeNumber,
                 label: '简历编号'
-              },
+              }
+            },
+            dynamicParams: {
               'resumeVersion': {
                 type: 'String',
                 default: DEFAULT_CONFIG.resumeVersion,
@@ -1162,10 +1186,6 @@ const store = new Vuex.Store({
                   {
                     label: '英文',
                     value: 2
-                  },
-                  {
-                    label: '中英文',
-                    value: 3
                   }
                 ]
               }
