@@ -104,8 +104,6 @@
     color: #2c3e50;
     min-width: 1000px;
     height: 100%;
-    /* display: flex;
-              flex-direction: row; */
   }
   .nav {
     position: absolute;
@@ -203,5 +201,9 @@
   .content .inner {
     width: 100%;
     height: 100%;
+  }
+
+  .no-resize textarea {
+    resize: none;
   }
 </style>

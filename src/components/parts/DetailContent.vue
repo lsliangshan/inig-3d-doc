@@ -34,6 +34,13 @@
                       :key="index"
                       :value="opt.value">{{opt.label}}</Option>
             </Select>
+            <Input type="textarea"
+                   class="no-resize"
+                   :autosize="{minRows: 3, maxRows: 6}"
+                   :placeholder="'请输入' + value.label"
+                   :value="JSON.stringify(requestArgs[key])"
+                   @on-change="changeObject($event, key)"
+                   v-else-if="value.type === 'Object'" />
             <Input :type="(value.type === 'Number') ? 'number' : 'text'"
                    :number="(value.type === 'Number')"
                    :placeholder="'请输入' + value.label"
@@ -57,6 +64,14 @@
                       :key="index"
                       :value="opt.value">{{opt.label}}</Option>
             </Select>
+            <Input type="textarea"
+                   class="no-resize"
+                   :autosize="{minRows: 3, maxRows: 6}"
+                   style="width: calc(100% - 40px);"
+                   :placeholder="'请输入' + value.label"
+                   :value="JSON.stringify(requestArgs[key])"
+                   @on-change="changeObject($event, key)"
+                   v-else-if="value.type === 'Object'" />
             <Input type="text"
                    :placeholder="'请输入' + value.label"
                    v-model="requestArgs[key]"
@@ -548,6 +563,17 @@
       this.initClipboardBtns()
     },
     methods: {
+      changeObject (evt, key) {
+        let _value = ''
+        try {
+          _value = eval('(' + evt.target.value + ')')
+        } catch (err) {
+          _value = ''
+        }
+        if (_value) {
+          this.requestArgs[key] = _value
+        }
+      },
       handleCheckAll () {
         if (this.indeterminate) {
           this.checkedAll = false
