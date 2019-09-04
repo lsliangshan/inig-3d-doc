@@ -1,5 +1,5 @@
 {
-  "name": "test-3d",
+  "name": "inig-3d-doc",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -14,7 +14,7 @@
     "izitoast": "^1.4.0",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
-    "plugins-3d": "0.0.1",
+    "inig-3d": "^0.0.2",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
