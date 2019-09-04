@@ -580,7 +580,7 @@ const store = new Vuex.Store({
             label: '获取公司点评信息',
             name: 'requestCompanyComment',
             params: {
-              'orgNumber': {
+              'companyNumber': {
                 type: 'String',
                 default: DEFAULT_CONFIG.companyNumber,
                 label: '公司编号'
