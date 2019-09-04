@@ -3,7 +3,7 @@
     <div class="highlight">
       <p class="highlight_title">导入模块</p>
       <div class="highlight_code">
-        <pre class="import_target">import { {{$route.params.method}} } from "plugins-3d/lib/domains/{{$route.params.domain}}/service"</pre>
+        <pre class="import_target">import { {{$route.params.method}} } from "inig-3d/lib/domains/{{$route.params.domain}}/service"</pre>
         <Tooltip content="复制导入语句"
                  placement="left"
                  class="import_copy_wrapper">
@@ -491,10 +491,10 @@
 </style>
 
 <script>
-  import * as Job from '../../../../plugins-3d/lib/domains/job/service'
-  import * as User from '../../../../plugins-3d/lib/domains/user/service'
-  import * as Company from '../../../../plugins-3d/lib/domains/company/service'
-  import * as Resume from '../../../../plugins-3d/lib/domains/resume/service'
+  import * as Job from '../../../../inig-3d/lib/domains/job/service'
+  import * as User from '../../../../inig-3d/lib/domains/user/service'
+  import * as Company from '../../../../inig-3d/lib/domains/company/service'
+  import * as Resume from '../../../../inig-3d/lib/domains/resume/service'
   import jsonView from '../third/json-view'
   import Clipboard from 'clipboard'
   import { Tooltip, Modal, Form, FormItem, Input, Button, Checkbox, Icon, Switch, Select, Option } from 'iview'
@@ -605,7 +605,7 @@
       initClipboardBtns () {
         let importCopyRef = new Clipboard('.import_copy_ref', {
           text: () => {
-            return 'import { ' + this.$route.params.method + ' } from "plugins-3d/lib/domains/' + this.$route.params.domain + '/service"'
+            return 'import { ' + this.$route.params.method + ' } from "inig-3d/lib/domains/' + this.$route.params.domain + '/service"'
           }
         })
         importCopyRef.on('success', (e) => {
