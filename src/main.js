@@ -12,9 +12,12 @@ import 'izitoast/dist/css/iziToast.min.css'
 
 Vue.config.productionTip = false
 INIG({
-  platform: 13,   // 必填
-  pagecode: 4020, // 必填
-  appid: 'A23'
+  options: {
+    platform: 13, // 必填
+    pagecode: 4020, // 必填
+    appid: 'A23',
+  },
+  isServer: false
 })
 
 Vue.prototype.$toast = iziToast

@@ -40,8 +40,7 @@
     },
     data () {
       return {
-        openedMenu: -1,
-        activeSubMenu: ''
+        openedMenu: -1
       }
     },
     computed: {
@@ -78,6 +77,22 @@
           this.$router.replace({
             path: targetPath
           })
+        }
+      }
+    },
+    watch: {
+      '$route': {
+        immediate: true,
+        handler (val) {
+          setTimeout(() => {
+            if (!val.params.method) {
+              document.title = this.domains.filter(item => item.name.toLowerCase() === val.params.domain.toLowerCase())[0].label
+            } else {
+              document.title = this.domains.filter(item => {
+                return item.name.toLowerCase() === this.$route.params.domain.toLowerCase()
+              })[0].children.filter(item => item.name.toLowerCase() === val.params.method.toLowerCase())[0].label
+            }
+          }, 1)
         }
       }
     }
