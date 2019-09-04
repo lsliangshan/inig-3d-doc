@@ -364,6 +364,17 @@ const store = new Vuex.Store({
             }
           },
           {
+            label: '获取公司在招职位的城市',
+            name: 'requestCompanyRecruitment',
+            params: {
+              'companyNumber': {
+                type: 'String',
+                default: DEFAULT_CONFIG.companyNumber,
+                label: '公司编号'
+              }
+            }
+          },
+          {
             label: '获取在招职位所在城市',
             name: 'requestAreaJobCity',
             params: {
