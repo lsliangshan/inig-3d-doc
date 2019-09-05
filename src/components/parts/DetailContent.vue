@@ -122,6 +122,7 @@
         </Form>
         <div class="result_container"
              :class="[(result.hasOwnProperty('data') && result.data) ? 'allow_copy' : '']">
+          <div class="result_container_bg"></div>
           <div class="result_status_container"
                v-if="!isRequesting && (result.status == '0')"></div>
           <div class="result_status_container success"
@@ -296,6 +297,17 @@
     font-size: 13px;
     background-color: #1e1e1e;
   }
+  .result_container_bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../../assets/logo.png");
+    filter: grayscale(1) opacity(0.08);
+    background-size: contain;
+  }
   .result_container .result_copy_wrapper {
     position: absolute;
     top: 50px;
@@ -421,7 +433,10 @@
     fill: #42b983 !important;
     stroke: #42b983 !important;
   }
-
+  .result_status_container {
+    position: relative;
+    z-index: 2;
+  }
   .result_status_container.success {
     background-color: #42b983;
     color: #ffffff;
@@ -457,6 +472,8 @@
   }
   .result_data_container_blank {
     /* min-height: 190px; */
+    position: relative;
+    z-index: 2;
     height: 600px;
     display: flex;
     flex-direction: row;
