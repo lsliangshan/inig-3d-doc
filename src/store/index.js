@@ -59,8 +59,8 @@ const DEFAULT_CONFIG = {
   resumeAvatarUrl: 'http://mypics.zhaopin.cn/attachment/2019/08/07/c12ad23a-cbf5-4300-bf63-36ab28176a80.png',
   platform: '13',
   userId: '705788774',
-  at: '2e80b0e4dbad4b55abd5fea6f7349d58',
-  rt: 'c8d08a37e2b34df196980126c1178989'
+  at: 'c12c111f962a499eaa9eb6cd492a2091',
+  rt: 'e88fd4ca31e845b495b3b5fb2f1fd3e9'
 }
 
 const store = new Vuex.Store({
@@ -98,6 +98,24 @@ const store = new Vuex.Store({
             label: '获取用户详情',
             name: 'getUserDetail',
             params: {}
+          }
+        ]
+      },
+      {
+        label: '基础数据领域',
+        name: 'baseData',
+        children: [
+          {
+            label: '获取基础数据版本',
+            name: 'requestBaseDataVersion',
+            params: {},
+            dynamicParams: {
+              'keys': {
+                type: 'String',
+                default: '',
+                label: '基础数据名称'
+              }
+            }
           }
         ]
       },

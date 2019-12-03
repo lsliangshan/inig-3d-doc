@@ -512,6 +512,7 @@
   import * as User from '../../../../inig-3d/lib/domains/user/service'
   import * as Company from '../../../../inig-3d/lib/domains/company/service'
   import * as Resume from '../../../../inig-3d/lib/domains/resume/service'
+  import * as BaseData from '../../../../inig-3d/lib/domains/baseData/service'
   import jsonView from '../third/json-view'
   import Clipboard from 'clipboard'
   import { Tooltip, Modal, Form, FormItem, Input, Button, Checkbox, Icon, Switch, Select, Option } from 'iview'
@@ -538,7 +539,8 @@
           job: Job,
           user: User,
           company: Company,
-          resume: Resume
+          resume: Resume,
+          baseData: BaseData
         },
         requestArgs: {},
         result: {
