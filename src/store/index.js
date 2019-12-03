@@ -116,6 +116,122 @@ const store = new Vuex.Store({
                 label: '基础数据名称'
               }
             }
+          },
+          {
+            label: '获取基础数据',
+            name: 'requestBaseData',
+            params: {
+              'dictName': {
+                type: 'String',
+                default: 'industry',
+                label: '基础数据名称',
+                options: [
+                  {
+                    label: '公司性质',
+                    value: 'company_type'
+                  },
+                  {
+                    label: '招聘类型',
+                    value: 'employment_type'
+                  },
+                  {
+                    label: '教育程度',
+                    value: 'education'
+                  },
+                  {
+                    label: '求职状态',
+                    value: 'career_status'
+                  },
+                  {
+                    label: '职位类别',
+                    value: 'job_type'
+                  },
+                  {
+                    label: '薪资',
+                    value: 'salary_resume'
+                  },
+                  {
+                    label: '专业名称',
+                    value: 'major'
+                  },
+                  {
+                    label: '工作经验',
+                    value: 'work_experience'
+                  },
+                  {
+                    label: '期望行业',
+                    value: 'industry'
+                  },
+                  {
+                    label: '薪资范围',
+                    value: 'mobile_salary_range_60'
+                  },
+                  {
+                    label: '商圈',
+                    value: 'business_areas'
+                  },
+                  {
+                    label: '所有城市',
+                    value: 'all_cities'
+                  },
+                  {
+                    label: '聚合城市',
+                    value: 'aggregate_cities'
+                  },
+                  {
+                    label: '热门城市',
+                    value: 'hot_cities'
+                  },
+                  {
+                    label: '海外城市',
+                    value: 'overseas'
+                  },
+                  {
+                    label: '公司规模',
+                    value: 'company_size'
+                  },
+                  {
+                    label: 'skill_tag_relation',
+                    value: 'skill_tag_relation'
+                  },
+                  {
+                    label: '地铁',
+                    value: 'city_subway'
+                  },
+                  {
+                    label: 'industry_relation_before_2019',
+                    value: 'industry_relation_before_2019'
+                  },
+                  {
+                    label: 'job_type_parent_before_2019',
+                    value: 'job_type_parent_before_2019'
+                  },
+                  {
+                    label: 'job_type_relation_before_2019',
+                    value: 'job_type_relation_before_2019'
+                  },
+                  {
+                    label: 'salary_job_60',
+                    value: 'salary_job_60'
+                  },
+                  {
+                    label: 'skill_tag',
+                    value: 'skill_tag'
+                  }
+                ]
+              },
+              'code': {
+                type: 'String',
+                default: '100000000',
+                label: '基础数据code'
+              },
+              'withSublist': {
+                type: 'Boolean',
+                default: false,
+                label: '是否包含子数据'
+              }
+            },
+            dynamicParams: {}
           }
         ]
       },

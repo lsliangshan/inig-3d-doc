@@ -16,8 +16,8 @@ INIG({
     platform: 13, // 必填
     pagecode: 4020, // 必填
     appid: 'A23',
-    at: 'c2cac90de8c0431e80d03e4be807bf59',
-    rt: '1c0fd1ede855470d8d844663a161f76a'
+    at: 'bf3e2fad2c4f4dc2aeffda195e590d47',
+    rt: '628cfb29c8d5499fad15ab65b8059cd5'
   },
   isServer: false
 })
