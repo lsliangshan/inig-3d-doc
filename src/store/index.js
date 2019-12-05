@@ -108,8 +108,8 @@ const store = new Vuex.Store({
           {
             label: '获取基础数据版本',
             name: 'requestBaseDataVersion',
-            dynamicParams: {},
-            params: {
+            params: {},
+            dynamicParams: {
               'keys': {
                 type: 'String',
                 default: '',
