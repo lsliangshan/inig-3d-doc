@@ -4,7 +4,14 @@ const axios = require('axios')
 const app = new Koa()
 // https://segmentfault.com/a/1190000011840010
 
-app.use(async ctx => {
+app.use(async (ctx, next) => {
+  ctx.set('Access-Control-Allow-Origin', ctx.headers.origin); // 很奇怪的是，使用 * 会出现一些其他问题
+  ctx.set('Access-Control-Allow-Headers', 'content-type');
+  ctx.set('Access-Control-Allow-Methods', 'OPTIONS,GET,HEAD,PUT,POST,DELETE,PATCH')
+  await next();
+});
+
+app.use(async (ctx, next) => {
 
   function parsePostData () {
     return new Promise((resolve, reject) => {
@@ -18,7 +25,7 @@ app.use(async ctx => {
           resolve(parseData);
         });
       } catch (e) {
-        reject(e);
+        resolve({})
       }
     })
   }
@@ -40,24 +47,38 @@ app.use(async ctx => {
     prev[curr] = ctx[curr]
     return prev
   }, {})
-  let postData
-  if (ctx.method.toLowerCase() === 'get') {
-    if (!ctxObj.query.url) {
-      ctx.body = {
-        message: 'url不能为空',
-        status: 1001
-      }
-      return
+
+  let postData = {}
+
+  if (ctxObj.method.toLowerCase() === 'get') {
+    ctx.body = {
+      message: '请使用POST请求',
+      status: 1001
     }
-    ctxObj.query.url = encodeURIComponent(ctxObj.query.url)
+    return
+    // if (!ctxObj.query.url) {
+    //   ctx.body = {
+    //     message: 'url不能为空',
+    //     status: 1001
+    //   }
+    //   return
+    // }
+    // ctxObj.query.url = encodeURIComponent(ctxObj.query.url)
   } else {
     postData = await parsePostData(ctx);
   }
   if (!ctxObj.path.match(/ico|png|jpg|jpeg|gif$/)) {
-    await axios((ctx.method.toLowerCase() === 'get') ? ctxObj.query : postData).catch(err => {
-
-    }).then(response => {
-      console.log('======', response)
+    let requestParams = {
+      method: postData.method || 'get'
+    }
+    if (!postData.method || postData.method.toLowerCase() === 'get') {
+      requestParams.url = postData.url + (postData.data ? ('?' + postData.data) : '')
+    } else {
+      requestParams.url = postData.url
+      requestParams.data = postData.data
+    }
+    await axios(requestParams).catch(err => {
+    }).then(async (response) => {
       ctx.body = response ? response.data : {}
     })
   }
